@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-low": "#eff4ff", "outline-variant": "#c3c6d7", "on-secondary": "#ffffff", "on-primary-fixed": "#00174b", "primary": "#004ac6", "surface-tint": "#0053db", "on-background": "#0b1c30", "secondary-fixed": "#89f5e7", "tertiary-fixed-dim": "#bcc7de", "surface-container-lowest": "#ffffff", "surface": "#f8f9ff", "primary-fixed": "#dbe1ff", "on-tertiary-fixed": "#111c2d", "inverse-primary": "#b4c5ff", "inverse-on-surface": "#eaf1ff", "on-primary": "#ffffff", "on-error": "#ffffff", "error-container": "#ffdad6", "surface-bright": "#f8f9ff", "secondary": "#006a61", "surface-container-highest": "#d3e4fe", "on-tertiary-fixed-variant": "#3c475a", "primary-fixed-dim": "#b4c5ff", "surface-container": "#e5eeff", "on-tertiary-container": "#ecf1ff", "on-tertiary": "#ffffff", "surface-variant": "#d3e4fe", "on-surface": "#0b1c30", "surface-dim": "#cbdbf5", "primary-container": "#2563eb", "error": "#ba1a1a", "outline": "#737686", "tertiary-container": "#636e83", "surface-container-high": "#dce9ff", "on-surface-variant": "#434655", "secondary-container": "#86f2e4", "tertiary": "#4b566a", "on-primary-container": "#eeefff", "on-secondary-fixed-variant": "#005049", "tertiary-fixed": "#d8e3fb", "on-secondary-fixed": "#00201d", "inverse-surface": "#213145", "background": "#f8f9ff", "secondary-fixed-dim": "#6bd8cb", "on-error-container": "#93000a", "on-primary-fixed-variant": "#003ea8", "on-secondary-container": "#006f66" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin": "2rem", "space-md": "1rem", "space-sm": "0.5rem", "gutter": "1.5rem", "space-xl": "2.5rem", "margin-mobile": "1rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "gutter-sm": "1rem" }, "fontFamily": { "caption": [ "Inter" ], "metric-display": [ "Inter" ], "body-md": [ "Inter" ], "headline-sm": [ "Inter" ], "headline-xl-mobile": [ "Inter" ], "headline-md": [ "Inter" ], "headline-xl": [ "Inter" ], "body-lg": [ "Inter" ], "body-sm": [ "Inter" ], "label-code": [ "JetBrains Mono" ], "headline-lg": [ "Inter" ] }, "fontSize": { "caption": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "metric-display": [ "28px", { "lineHeight": "34px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "body-md": [ "14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-xl-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "headline-xl": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "600" } ], "body-lg": [ "16px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" } ], "body-sm": [ "13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "label-code": [ "12px", { "lineHeight": "16px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 flex items-center px-space-md gap-space-sm bg-surface-container-lowest"><div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center p-space-xs"><span class="material-symbols-outlined text-primary text-[20px]">science</span></div><div class="flex flex-col min-w-0"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate">ThermoExplain AI</span><span class="font-caption text-caption text-on-surface-variant tracking-normal truncate">CFD &amp; Battery AI Lab</span></div></div><div class="px-space-md py-space-xs"><div class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider px-space-xs py-space-xs">Core Modules</div></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-headline-sm rounded-xl"><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="overview-dashboard" href="#">Overview Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="cfd-explorer-and-design-analysis" href="#">CFD Explorer &amp; Design Analysis</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="explainable-ai-lab" href="#">Explainable AI Lab</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="generative-ai-lab" href="#">Generative AI Lab</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="thermal-knowledge-assistant" href="#">Thermal Knowledge Assistant</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="evaluation-and-validation" href="#">Evaluation &amp; Validation</a></nav></div><div class="p-space-md m-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-code text-label-code text-on-surface font-semibold">v0.8.2-research</span><a class="font-caption text-caption text-primary hover:text-primary-container transition-colors" href="#">Quick Docs</a></div><p class="font-caption text-caption text-on-surface-variant leading-tight">CFD-Thermal Surrogate Model Platform (IEEE Trans. Transp. Electrif. Study)</p></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><span class="px-space-xs py-0.5 rounded-lg bg-surface-container text-on-surface font-label-code text-label-code">Study: 10-Cell Pack (Transient)</span><div class="hidden md:flex items-center gap-space-xs text-on-surface-variant font-caption text-caption"><span class="material-symbols-outlined text-[16px] text-secondary">device_thermostat</span><span>Coolant: Water-Glycol 50:50</span></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-secondary-container/30 text-on-secondary-container font-label-code text-label-code"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span>Dataset: Ready (4 cases loaded)</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-xl bg-surface-container-low font-label-code text-label-code text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">bolt</span><span class="hidden lg:inline">A100 GPU</span><span class="text-secondary font-semibold">Online</span></div><div class="flex items-center gap-space-xs"><button class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Help &amp; Thermal Glossary" type="button"><span class="material-symbols-outlined text-[20px]">help_outline</span></button><button class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="System Settings &amp; Solver Config" type="button"><span class="material-symbols-outlined text-[20px]">tune</span></button></div><div class="flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UPDZpLLyCNQ9g_wNBTPapjvWEC8sgTAI1-yj7b8SK7ixjQNVELZuGGb9RZD06JW-Cq87LKGY2Z4PCDVlvlAGiJpSW-uOjg-qohPDnVQ5wJO56ErU4_ZSjfEwgr6a99YgvE7hLn6plPpWJ3n83F_SmDMsqeuUsKv6WqjRd4EG_MQxoIZ-aaRlJRVq5K-_IG7xtGwhi18UpmPPTP73jrjUOuI9E2nNt3VdxjzeGw4FpExreQmQGJI2gQqV38"/><div class="hidden xl:flex flex-col"><span class="font-caption text-caption text-on-surface font-semibold leading-tight">Dr. E. Vance</span><span class="font-label-code text-label-code text-on-surface-variant leading-none">Thermal Lead</span></div></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Interactive & Layout Root Container -->
+<div class="w-full max-w-[1440px] mx-auto px-space-lg py-space-lg flex flex-col gap-space-lg">
+<!-- Top Metadata / Breadcrumb Hierarchy -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-xs">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">KNOWLEDGE RETRIEVAL MODULE</span>
+<span class="text-outline-variant font-label-code text-label-code">/</span>
+<span class="font-label-code text-label-code text-primary font-semibold uppercase tracking-wider">DOCUMENT RAG &amp; QUERY UNDERSTANDING</span>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap mt-0.5">
+<span class="px-space-xs py-0.5 rounded-lg bg-surface-container-high text-on-surface font-label-code text-label-code flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">psychology</span>
+            BERT + RAG + GPT-OSS 120B
+          </span>
+<span class="px-space-xs py-0.5 rounded-lg bg-secondary-container/40 text-on-secondary-container font-label-code text-label-code flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Knowledge Base Active: 18 Documents Indexed
+          </span>
+<span class="px-space-xs py-0.5 rounded-lg bg-surface-container text-on-surface-variant font-label-code text-label-code">
+            Index Hash: #sha256-f81d4e
+          </span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors font-caption text-caption flex items-center gap-1" id="toggle-guide-btn" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">menu_book</span>
+<span>How It Works</span>
+</button>
+<button class="px-space-sm py-1 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors font-caption text-caption flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">upload_file</span>
+<span>Index New Literature</span>
+</button>
+</div>
+</div>
+<!-- Header Section with Title & Subtitle -->
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Thermal Knowledge Assistant</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-4xl">
+        Ask technical questions, explore indexed peer-reviewed literature, and inspect verifiable evidence synthesized by an accelerated scientific language model.
+      </p>
+</div>
+<!-- Educational Guide Card: "How does this assistant work?" (Expandable/Collapsible) -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] p-space-lg flex flex-col gap-space-md transition-all" id="educational-guide">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">info</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">How does this thermal assistant work?</h2>
+<p class="font-caption text-caption text-on-surface-variant">A 4-step transparent reasoning pipeline designed for research reproducibility</p>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-md bg-surface-container-low text-on-surface-variant font-label-code text-label-code">Zero Hallucination Protocol</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Step 1 -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-primary font-bold">STEP 01</span>
+<span class="material-symbols-outlined text-[18px] text-primary">category</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Understand Question</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Fine-tuned SciBERT classifies technical intent, thermal regimes (e.g. laminar vs turbulent), and targets appropriate sub-indices.
+          </p>
+</div>
+<!-- Step 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-secondary font-bold">STEP 02</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">manage_search</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Find Sources (RAG)</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Vector embeddings retrieve top-k semantically aligned chunks directly from IEEE, JPS, and validated OpenFOAM CFD datasets.
+          </p>
+</div>
+<!-- Step 3 -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-primary font-bold">STEP 03</span>
+<span class="material-symbols-outlined text-[18px] text-primary">edit_note</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Write Grounded Answer</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            GPT-OSS 120B synthesizes structured explanations constrained strictly to retrieved passages, citing precise paragraphs.
+          </p>
+</div>
+<!-- Step 4 -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-tertiary font-bold">STEP 04</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">verified</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Check References</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Inspect verified excerpts, cosine similarity scores, page numbers, and original PDFs to confirm mathematical integrity.
+          </p>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-start gap-space-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-secondary mt-0.5">verified_user</span>
+<p class="font-caption text-caption leading-relaxed">
+<strong>Compact Rigor Note:</strong> The assistant can only provide source-grounded answers when relevant literature documents are available and successfully retrieved. It does not fabricate formulas, coefficients, or physical properties outside verified reference sources.
+        </p>
+</div>
+</div>
+<!-- Multi-Component System Status Grid (No aggregate false ready) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Node 1 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Indexed Documents</span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-container/40 text-on-secondary-container font-label-code text-label-code font-semibold">Ready</span>
+</div>
+<div class="flex flex-col">
+<span class="font-metric-display text-headline-md text-on-surface">18 Technical Docs</span>
+<span class="font-caption text-caption text-on-surface-variant">PDFs, SAE Papers &amp; Reports</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-full"></div>
+</div>
+</div>
+<!-- Node 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Vector Database</span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-container/40 text-on-secondary-container font-label-code text-label-code font-semibold">Synced</span>
+</div>
+<div class="flex flex-col">
+<span class="font-metric-display text-headline-md text-on-surface">FAISS Dense Index</span>
+<span class="font-caption text-caption text-on-surface-variant">dim=768 • 4,120 Embeddings</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-full"></div>
+</div>
+</div>
+<!-- Node 3 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Classifier Backbone</span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-container/40 text-on-secondary-container font-label-code text-label-code font-semibold">Online</span>
+</div>
+<div class="flex flex-col">
+<span class="font-metric-display text-headline-md text-on-surface">SciBERT-ThermalIntent</span>
+<span class="font-caption text-caption text-on-surface-variant">Fine-tuned v2.4 • PyTorch 2.1</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-full"></div>
+</div>
+</div>
+<!-- Node 4 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Generation Engine</span>
+<span class="px-space-xs py-0.5 rounded-md bg-primary-fixed text-on-primary-fixed font-label-code text-label-code font-semibold">240 tok/s</span>
+</div>
+<div class="flex flex-col">
+<span class="font-metric-display text-headline-md text-on-surface">GPT-OSS 120B</span>
+<span class="font-caption text-caption text-on-surface-variant">GPT-OSS inference service</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-full"></div>
+</div>
+</div>
+</div>
+<!-- Question Input & Exploration Workbench -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col gap-space-md">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">search_spark</span>
+<label class="font-headline-sm text-headline-sm text-on-surface" for="query-input">Technical Investigation Query</label>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant">Scope: 10-Cell Glycol Cooling CFD</span>
+</div>
+</div>
+<!-- Textarea Input Area with Clean Visual Framing -->
+<div class="relative w-full rounded-xl bg-surface-container-low p-space-xs focus-within:bg-surface-container transition-all">
+<textarea class="w-full bg-transparent border-0 outline-none p-space-sm text-on-surface font-body-md text-body-md resize-y placeholder:text-outline" id="query-input" placeholder="Ask a question about battery cooling, heat transfer, CFD, mesh resolution, model explanations or generative AI…" rows="3">Why does Cell #7 experience the highest temperature in the 10-cell pack under Re=560 laminar flow, and what does the literature recommend to alleviate this hotspot?</textarea>
+<div class="flex items-center justify-between px-space-sm py-space-xs">
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-caption text-caption flex items-center gap-1" id="clear-query-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+<span>Clear</span>
+</button>
+<span class="font-label-code text-label-code text-outline-variant">|</span>
+<span class="font-label-code text-label-code text-on-surface-variant">148 characters</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="hidden sm:inline font-label-code text-label-code text-on-surface-variant">Press <kbd class="px-1.5 py-0.5 rounded bg-surface-container-lowest text-on-surface text-[10px] shadow-sm">⌘</kbd> + <kbd class="px-1.5 py-0.5 rounded bg-surface-container-lowest text-on-surface text-[10px] shadow-sm">Enter</kbd></span>
+<button class="px-space-md py-2 rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all font-headline-sm text-caption shadow-sm flex items-center gap-1.5" id="submit-query-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Submit Question</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Example Suggestions Carousel / List -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Try these example questions (Click to populate input):</span>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-xs">
+<button class="example-chip text-left p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface font-body-sm text-body-sm flex items-start gap-2" data-query="Why does the peak hotspot occur at Cell #7 in our laminar CFD simulation?" type="button">
+<span class="material-symbols-outlined text-primary text-[16px] mt-0.5 shrink-0">arrow_forward</span>
+<span>Why does the peak hotspot occur at Cell #7 in our laminar CFD simulation?</span>
+</button>
+<button class="example-chip text-left p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface font-body-sm text-body-sm flex items-start gap-2" data-query="What is the recommended maximum temperature difference across an automotive battery pack?" type="button">
+<span class="material-symbols-outlined text-primary text-[16px] mt-0.5 shrink-0">arrow_forward</span>
+<span>What is the recommended maximum temperature difference across an automotive battery pack?</span>
+</button>
+<button class="example-chip text-left p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface font-body-sm text-body-sm flex items-start gap-2" data-query="How does mesh resolution affect pressure drop in minichannel cooling plates?" type="button">
+<span class="material-symbols-outlined text-primary text-[16px] mt-0.5 shrink-0">arrow_forward</span>
+<span>How does mesh resolution affect pressure drop in minichannel cooling plates?</span>
+</button>
+<button class="example-chip text-left p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface font-body-sm text-body-sm flex items-start gap-2" data-query="What are the physical limitations of using GANs for synthetic thermal field generation?" type="button">
+<span class="material-symbols-outlined text-primary text-[16px] mt-0.5 shrink-0">arrow_forward</span>
+<span>What are the physical limitations of using GANs for synthetic thermal field generation?</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Step 1 — Understanding Your Question (BERT Classification Card) -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-label-code text-label-code font-bold">
+            01
+          </div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Step 1 — Understanding Your Question (BERT Classification)</h2>
+<p class="font-caption text-caption text-on-surface-variant">SciBERT fine-tuned on scientific and thermal engineering literature to categorize intent</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-code text-label-code text-on-surface-variant">Classifier Confidence:</span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-container/40 text-on-secondary-container font-label-code text-label-code font-bold">96.4%</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Predicted Domain -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Primary Engineering Intent</span>
+<span class="font-headline-sm text-headline-sm text-primary">Conjugate Heat Transfer &amp; Fluid Dynamics</span>
+<span class="font-caption text-caption text-on-surface font-medium">Subtopic: Hotspot Root-Cause Analysis</span>
+</div>
+<!-- Tagged Entities -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Extracted Physics Entities</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface font-label-code text-caption">Flow: Laminar (Re=560)</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface font-label-code text-caption">Cell Target: #7</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface font-label-code text-caption">Geometry: 10-Cell Minichannel</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface font-label-code text-caption">Goal: Mitigation Strategy</span>
+</div>
+</div>
+<!-- System Logic / Why classify -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Classification Routing Impact</span>
+<p class="font-caption text-caption text-on-surface-variant leading-relaxed">
+            Classification routes queries toward cold plate thermal dissipation vectors rather than electrical cell chemistries, boosting FAISS similarity accuracy. It does not generate text itself.
+          </p>
+</div>
+</div>
+</div>
+<!-- Step 2 — Finding Relevant Evidence (RAG Document Passages) -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-label-code text-label-code font-bold">
+            02
+          </div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Step 2 — Finding Relevant Evidence (RAG Document Passages)</h2>
+<p class="font-caption text-caption text-on-surface-variant">Retrieved text chunks with high semantic similarity from peer-reviewed thermal journals</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant">Top-k Retrieved: 3 chunks</span>
+<span class="text-outline-variant font-label-code text-label-code">•</span>
+<span class="font-label-code text-label-code text-secondary font-semibold">Min Similarity: 0.825</span>
+</div>
+</div>
+<!-- Passage Cards Container -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Passage 1 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col justify-between gap-space-md transition-all hover:shadow-md" id="citation-source-1">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-space-xs py-0.5 rounded-md bg-primary-fixed text-on-primary-fixed font-label-code text-label-code font-semibold">[Source 1]</span>
+<div class="flex items-center gap-1">
+<span class="font-label-code text-label-code text-on-surface-variant">Similarity:</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container font-label-code text-label-code text-primary font-bold">0.942</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface line-clamp-2">
+              IEEE Trans. Transportation Electrification: Thermal Management of Prismatic Lithium-Ion Battery Modules
+            </h3>
+<span class="font-caption text-caption text-on-surface-variant">
+              Sec. 4.2 'Boundary Layer Development in Sequential Cooling', pp. 114–118 (2023)
+            </span>
+<div class="mt-space-xs p-space-sm rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface leading-relaxed italic">
+              "...In downstream sequential flow channels, the thermal boundary layer thickens progressively from cell 1 through cell 8. Consequently, the convective heat transfer coefficient (h) degrades by up to 42% between the inlet manifold and cell 7, producing a localized thermal peak prior to the final contraction zone..."
+            </div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<button class="inspect-btn text-primary hover:text-primary-container font-caption text-caption font-semibold flex items-center gap-1" data-fullwords="1,240" data-source="Source 1" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect Full Passage (1,240 words)</span>
+</button>
+<a class="text-on-surface-variant hover:text-on-surface font-caption text-caption flex items-center gap-0.5" href="#">
+<span>PDF</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Passage 2 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col justify-between gap-space-md transition-all hover:shadow-md" id="citation-source-2">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-code text-label-code font-semibold">[Source 2]</span>
+<div class="flex items-center gap-1">
+<span class="font-label-code text-label-code text-on-surface-variant">Similarity:</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container font-label-code text-label-code text-secondary font-bold">0.887</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface line-clamp-2">
+              Journal of Power Sources: Cell-to-Cell Temperature Uniformity Criteria for EV Pack Degradation Prevention
+            </h3>
+<span class="font-caption text-caption text-on-surface-variant">
+              Sec. 2.1 'Permissible Thermal Gradients', pp. 88–92 (2022)
+            </span>
+<div class="mt-space-xs p-space-sm rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface leading-relaxed italic">
+              "...Cell life cycle analysis indicates that maintaining an intra-pack temperature spread (ΔT) strictly below 5.0 °C prevents premature cell-aging divergence. Under laminar flow regimes where ΔT reaches 12–18 °C, counter-flow cooling or transition to low-Reynolds turbulent vortex generators is strongly advocated..."
+            </div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<button class="inspect-btn text-primary hover:text-primary-container font-caption text-caption font-semibold flex items-center gap-1" data-fullwords="980" data-source="Source 2" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect Full Passage (980 words)</span>
+</button>
+<a class="text-on-surface-variant hover:text-on-surface font-caption text-caption flex items-center gap-0.5" href="#">
+<span>PDF</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Passage 3 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col justify-between gap-space-md transition-all hover:shadow-md" id="citation-source-3">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-space-xs py-0.5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-code text-label-code font-semibold">[Source 3]</span>
+<div class="flex items-center gap-1">
+<span class="font-label-code text-label-code text-on-surface-variant">Similarity:</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container font-label-code text-label-code text-tertiary font-bold">0.825</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface line-clamp-2">
+              Applied Thermal Engineering: Minichannel Plate Optimization and Secondary Dean Vortex Generators
+            </h3>
+<span class="font-caption text-caption text-on-surface-variant">
+              Sec. 5.3 'Transition Strategies', pp. 204–209 (2024)
+            </span>
+<div class="mt-space-xs p-space-sm rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface leading-relaxed italic">
+              "...Increasing flow rate to transition regime (Re ≈ 2,200 to 4,000) or incorporating dimpled rib vortex generators reduces maximum cell temperatures by 4.8 °C while keeping pumping power penalty within 15%..."
+            </div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<button class="inspect-btn text-primary hover:text-primary-container font-caption text-caption font-semibold flex items-center gap-1" data-fullwords="1,450" data-source="Source 3" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect Full Passage (1,450 words)</span>
+</button>
+<a class="text-on-surface-variant hover:text-on-surface font-caption text-caption flex items-center gap-0.5" href="#">
+<span>PDF</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3 — GPT-OSS Answer (Generated Grounded Synthesis Panel) -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col gap-space-md">
+<!-- Section Header & Model Metadata -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-label-code text-label-code font-bold">
+            03
+          </div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Step 3 — Grounded Synthesis (GPT-OSS 120B via Groq)</h2>
+<p class="font-caption text-caption text-on-surface-variant">Synthesized using strictly the verified evidence retrieved above. Check bracketed citations to inspect source passages.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface-variant font-label-code text-label-code">Model: GPT-OSS 120B</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface-variant font-label-code text-label-code">Latency: 420ms</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface-variant font-label-code text-label-code">Temp: 0.2 (Grounded)</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface-variant font-label-code text-label-code">Tokens: 382</span>
+</div>
+</div>
+<!-- Structured Answer Body with Visual Differentiation -->
+<div class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-md">
+<!-- Part 1: Direct Root Cause -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">1. Direct Root Cause (Why Cell #7 Is Hottest)</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed pl-4">
+            Under your laminar flow condition (<span class="font-label-code text-label-code bg-surface-container px-1 py-0.5 rounded">Re = 560</span>), the thermal boundary layer progressively thickens along the minichannel cold plate as fluid flows from Cell #1 towards Cell #8. Because of this thermal saturation, the convective heat transfer coefficient (<span class="font-label-code text-label-code italic">h</span>) continuously degrades downstream—dropping by up to <strong>42%</strong> before the coolant enters the exit manifold contraction zone
+            <button class="citation-jump-btn inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-code text-label-code font-bold hover:bg-primary hover:text-on-primary transition-all ml-1" data-target="citation-source-1" type="button">
+              [Source 1, Sec 4.2]
+            </button>.
+            Cell #7 sits at the intersection where the fluid has absorbed cumulative heat from cells 1–6 and boundary layer thickness is near maximum, resulting in the thermal hotspot.
+          </p>
+</div>
+<!-- Part 2: Impact on Pack Health -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">2. Impact on Pack Health &amp; Degradation Risk</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed pl-4">
+            In your simulation, the intra-pack spread reaches <span class="font-label-code text-label-code bg-surface-container px-1 py-0.5 rounded">ΔT = 17.6 °C</span> (Cell #1 at 24.1 °C vs Cell #7 at 41.7 °C). Standard automotive battery engineering criteria strictly stipulate that pack temperature deviation must stay below <strong>ΔT ≤ 5.0 °C</strong> to avoid non-uniform electrochemical impedance growth and accelerated aging divergences between parallel cells
+            <button class="citation-jump-btn inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-code text-label-code font-bold hover:bg-secondary hover:text-on-secondary transition-all ml-1" data-target="citation-source-2" type="button">
+              [Source 2, Sec 2.1]
+            </button>.
+            Operating indefinitely in this laminar state poses severe lifecycle penalties.
+          </p>
+</div>
+<!-- Part 3: Recommended Engineering Mitigations -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">3. Literature-Recommended Engineering Mitigations</h3>
+</div>
+<div class="pl-4 flex flex-col gap-space-xs font-body-md text-body-md text-on-surface leading-relaxed">
+<p>Peer-reviewed cold plate optimization studies propose two concrete interventions for this geometry:</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>
+<strong>Transition Regime Flow Rate:</strong> Accelerating coolant flow to transitional Reynolds numbers (<span class="font-label-code text-label-code">Re ≈ 2,200 – 4,000</span>) disrupts laminar boundary accumulation, reducing peak cell temperature by <strong>4.8 °C</strong> with minimal pumping power overhead
+                <button class="citation-jump-btn inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-code text-label-code font-bold hover:bg-tertiary hover:text-on-tertiary transition-all ml-1" data-target="citation-source-3" type="button">
+                  [Source 3, Sec 5.3]
+                </button>.
+              </li>
+<li>
+<strong>Dean Vortex / Rib Turbulators:</strong> Inserting dimpled or ribbed vortex generators adjacent to Cells #5–8 regenerates the thermal boundary layer locally, suppressing the hotspot without resizing fluid channels.
+              </li>
+<li>
+<strong>Counter-Flow Manifolding:</strong> Inverting alternate channel passages so cold fluid enters adjacent to Cells #6–10 flattens temperature variance across the pack
+                <button class="citation-jump-btn inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-code text-label-code font-bold hover:bg-secondary hover:text-on-secondary transition-all ml-1" data-target="citation-source-2" type="button">
+                  [Source 2, Sec 2.1]
+                </button>.
+              </li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Action Footer for Answer -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<button class="px-space-md py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-caption text-caption font-semibold flex items-center gap-1.5 transition-colors" id="copy-answer-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span>Copy Answer</span>
+</button>
+<button class="px-space-md py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-caption text-caption font-semibold flex items-center gap-1.5 transition-colors" id="regen-answer-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">replay</span>
+<span>Regenerate Answer</span>
+</button>
+<button class="px-space-md py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-caption text-caption font-semibold flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+<span>Export with Citations (PDF)</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-error font-caption text-caption flex items-center gap-1 transition-colors self-start sm:self-center" type="button">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+<span>Report Evidence Mismatch</span>
+</button>
+</div>
+</div>
+<!-- Beginner Help & Best Practices (Expandable Card) -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(15,23,42,0.04)] flex flex-col gap-space-sm">
+<button class="flex items-center justify-between w-full text-left" id="toggle-faq-btn" type="button">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">lightbulb</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">How can I get better answers from the Thermal Knowledge Assistant?</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform" id="faq-icon">expand_more</span>
+</button>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md pt-space-sm" id="faq-content">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[18px]">looks_one</span>
+<span class="font-headline-sm text-caption">One topic at a time</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Separate queries about geometry from queries regarding numerical solvers to let BERT choose the optimal chunk index.
+          </p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span class="font-headline-sm text-caption">Mention exact values</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Specify dimensionless numbers like <span class="font-label-code text-label-code">Re=560</span>, coolant types (<span class="font-label-code text-label-code">EG/Water 50:50</span>), and cell indices for exact matching.
+          </p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center gap-1.5 text-tertiary">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-headline-sm text-caption">Inspect retrieved passages</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Always open the linked source excerpts in Step 2 before applying thermal recommendations to physical test fixtures.
+          </p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="font-headline-sm text-caption">Index custom manuals</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            If your proprietary cold plate geometry is absent, upload domain PDFs to automatically re-sync the FAISS dense index.
+          </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Document Inspector Modal Overlay (Hidden by Default) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-space-md bg-inverse-surface/40 backdrop-blur-sm hidden" id="inspector-modal">
+<div class="w-full max-w-2xl bg-surface-container-lowest rounded-xl shadow-2xl p-space-lg flex flex-col gap-space-md max-h-[85vh] overflow-y-auto">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">article</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="modal-source-title">Inspecting Source Passage</h3>
+<span class="font-caption text-caption text-on-surface-variant" id="modal-source-meta">IEEE Trans. Transp. Electrif. (Sec 4.2)</span>
+</div>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" id="close-modal-btn" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low font-body-md text-body-md text-on-surface leading-relaxed flex flex-col gap-space-sm">
+<p><strong>Section Excerpt:</strong></p>
+<p id="modal-passage-text">
+          In downstream sequential flow channels, the thermal boundary layer thickens progressively from cell 1 through cell 8. Consequently, the convective heat transfer coefficient (h) degrades by up to 42% between the inlet manifold and cell 7, producing a localized thermal peak prior to the final contraction zone. This localized heating causes severe cell-to-cell thermal imbalance across 10-cell prismatic modules.
+        </p>
+<p class="font-caption text-caption text-on-surface-variant">
+          Cosine similarity: 0.942 | Chunk Hash: #chk-8831 | Tokens: 184 | Dimension: 768
+        </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-code text-label-code text-on-surface-variant">Source verified by FAISS indexer</span>
+<button class="px-space-md py-1.5 rounded-xl bg-primary text-on-primary font-caption text-caption font-semibold" id="modal-confirm-btn" type="button">
+          Done Inspecting
+        </button>
+</div>
+</div>
+</div>
+<!-- Inline Script for Micro-Interactions -->
+<script>
+    (function() {
+      // 1. Example questions chip click to populate input
+      const textarea = document.getElementById('query-input');
+      const exampleChips = document.querySelectorAll('.example-chip');
+      exampleChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          const query = chip.getAttribute('data-query');
+          if (query && textarea) {
+            textarea.value = query;
+            textarea.focus();
+            // brief visual feedback
+            chip.classList.add('bg-primary-fixed', 'text-on-primary-fixed');
+            setTimeout(() => {
+              chip.classList.remove('bg-primary-fixed', 'text-on-primary-fixed');
+            }, 300);
+          }
+        });
+      });
+
+      // 2. Clear query button
+      const clearBtn = document.getElementById('clear-query-btn');
+      if (clearBtn && textarea) {
+        clearBtn.addEventListener('click', () => {
+          textarea.value = '';
+          textarea.focus();
+        });
+      }
+
+      // 3. Jump to citation card with smooth scroll & highlight pulse
+      const citationButtons = document.querySelectorAll('.citation-jump-btn');
+      citationButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = btn.getAttribute('data-target');
+          if (targetId) {
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              targetEl.classList.add('ring-2', 'ring-primary', 'bg-surface-container-high');
+              setTimeout(() => {
+                targetEl.classList.remove('ring-2', 'ring-primary', 'bg-surface-container-high');
+              }, 1600);
+            }
+          }
+        });
+      });
+
+      // 4. Modal inspection logic
+      const inspectBtns = document.querySelectorAll('.inspect-btn');
+      const modal = document.getElementById('inspector-modal');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const confirmModalBtn = document.getElementById('modal-confirm-btn');
+      const modalTitle = document.getElementById('modal-source-title');
+      const modalMeta = document.getElementById('modal-source-meta');
+
+      inspectBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sourceName = btn.getAttribute('data-source');
+          const fullWords = btn.getAttribute('data-fullwords');
+          if (modal && modalTitle && modalMeta) {
+            modalTitle.textContent = 'Inspecting ' + sourceName;
+            modalMeta.textContent = 'Full passage view (' + fullWords + ' words indexed in FAISS)';
+            modal.classList.remove('hidden');
+          }
+        });
+      });
+
+      const hideModal = () => {
+        if (modal) modal.classList.add('hidden');
+      };
+
+      if (closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
+      if (confirmModalBtn) confirmModalBtn.addEventListener('click', hideModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) hideModal();
+        });
+      }
+
+      // 5. Copy answer button feedback
+      const copyBtn = document.getElementById('copy-answer-btn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          const originalHTML = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-secondary">check</span><span>Copied!</span>';
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+          }, 2000);
+        });
+      }
+
+      // 6. Regenerate answer button feedback
+      const regenBtn = document.getElementById('regen-answer-btn');
+      if (regenBtn) {
+        regenBtn.addEventListener('click', () => {
+          const originalHTML = regenBtn.innerHTML;
+          regenBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>Synthesizing...</span>';
+          setTimeout(() => {
+            regenBtn.innerHTML = originalHTML;
+          }, 1200);
+        });
+      }
+
+      // 7. Toggle educational guide
+      const toggleGuideBtn = document.getElementById('toggle-guide-btn');
+      const educationalGuide = document.getElementById('educational-guide');
+      if (toggleGuideBtn && educationalGuide) {
+        toggleGuideBtn.addEventListener('click', () => {
+          educationalGuide.classList.toggle('hidden');
+        });
+      }
+
+      // 8. Toggle FAQ Content
+      const toggleFaqBtn = document.getElementById('toggle-faq-btn');
+      const faqContent = document.getElementById('faq-content');
+      const faqIcon = document.getElementById('faq-icon');
+      if (toggleFaqBtn && faqContent && faqIcon) {
+        toggleFaqBtn.addEventListener('click', () => {
+          faqContent.classList.toggle('hidden');
+          faqIcon.textContent = faqContent.classList.contains('hidden') ? 'expand_more' : 'expand_less';
+        });
+      }
+
+    })();
+  </script>
+  <script type="module" src="/src/thermal-main.tsx"></script>
+  <script type="module" src="/src/stitch-navigation.ts"></script>
+</div></main></div></body></html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-container": "#636e83", "surface-variant": "#d3e4fe", "error": "#ba1a1a", "tertiary": "#4b566a", "primary-container": "#2563eb", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "surface": "#f8f9ff", "outline-variant": "#c3c6d7", "surface-dim": "#cbdbf5", "on-surface-variant": "#434655", "on-secondary-fixed-variant": "#005049", "on-secondary-container": "#006f66", "on-secondary-fixed": "#00201d", "surface-bright": "#f8f9ff", "on-surface": "#0b1c30", "surface-container": "#e5eeff", "primary": "#004ac6", "outline": "#737686", "surface-container-high": "#dce9ff", "error-container": "#ffdad6", "on-primary-container": "#eeefff", "inverse-surface": "#213145", "secondary-fixed": "#89f5e7", "primary-fixed-dim": "#b4c5ff", "on-secondary": "#ffffff", "surface-container-highest": "#d3e4fe", "surface-tint": "#0053db", "background": "#f8f9ff", "on-background": "#0b1c30", "secondary-container": "#86f2e4", "on-tertiary-container": "#ecf1ff", "on-primary-fixed-variant": "#003ea8", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed": "#111c2d", "on-error-container": "#93000a", "secondary-fixed-dim": "#6bd8cb", "tertiary-fixed": "#d8e3fb", "on-error": "#ffffff", "primary-fixed": "#dbe1ff", "on-tertiary-fixed-variant": "#3c475a", "tertiary-fixed-dim": "#bcc7de", "inverse-primary": "#b4c5ff", "secondary": "#006a61", "on-primary-fixed": "#00174b", "surface-container-low": "#eff4ff", "on-tertiary": "#ffffff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-md": "1rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "gutter": "1.5rem", "margin": "2rem", "space-xl": "2.5rem", "space-lg": "1.5rem", "gutter-sm": "1rem" }, "fontFamily": { "headline-xl": [ "Inter" ], "body-sm": [ "Inter" ], "label-code": [ "JetBrains Mono" ], "headline-md": [ "Inter" ], "headline-lg": [ "Inter" ], "metric-display": [ "Inter" ], "body-lg": [ "Inter" ], "caption": [ "Inter" ], "headline-sm": [ "Inter" ], "headline-xl-mobile": [ "Inter" ], "body-md": [ "Inter" ] }, "fontSize": { "headline-xl": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "600" } ], "body-sm": [ "13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "label-code": [ "12px", { "lineHeight": "16px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "metric-display": [ "28px", { "lineHeight": "34px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" } ], "caption": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-xl-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 flex items-center px-space-md gap-space-sm bg-surface-container-lowest"><div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center p-space-xs"><span class="material-symbols-outlined text-primary text-[20px]">science</span></div><div class="flex flex-col min-w-0"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate">ThermoExplain AI</span><span class="font-caption text-caption text-on-surface-variant tracking-normal truncate">CFD &amp; Battery AI Lab</span></div></div><div class="px-space-md py-space-xs"><div class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider px-space-xs py-space-xs">Core Modules</div></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-headline-sm rounded-xl"><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="thermoexplain-ai-overview-dashboard" href="#">Overview Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="thermoexplain-ai-cfd-explorer-design-analysis" href="#">CFD Explorer &amp; Design Analysis</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="thermoexplain-ai-explainable-ai-lab" href="#">Explainable AI Lab</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="thermoexplain-ai-generative-ai-lab" href="#">Generative AI Lab</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="thermoexplain-ai-thermal-knowledge-assistant" href="#">Thermal Knowledge Assistant</a><a class="flex items-center px-space-md py-space-sm rounded-xl bg-primary-container text-on-primary font-headline-sm transition-all" data-path="thermoexplain-ai-evaluation-validation" href="#">Evaluation &amp; Validation</a></nav></div><div class="p-space-md m-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-code text-label-code text-on-surface font-semibold">v0.8.2-research</span><a class="font-caption text-caption text-primary hover:text-primary-container transition-colors" href="#">Quick Docs</a></div><p class="font-caption text-caption text-on-surface-variant leading-tight">CFD-Thermal Surrogate Model Platform (IEEE Trans. Transp. Electrif. Study)</p></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><span class="px-space-xs py-0.5 rounded-lg bg-surface-container text-on-surface font-label-code text-label-code">Study: 10-Cell Pack (Transient)</span><div class="hidden md:flex items-center gap-space-xs text-on-surface-variant font-caption text-caption"><span class="material-symbols-outlined text-[16px] text-secondary">device_thermostat</span><span>Coolant: Water-Glycol 50:50</span></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-secondary-container/30 text-on-secondary-container font-label-code text-label-code"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span>Dataset: Ready (4 cases loaded)</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-xl bg-surface-container-low font-label-code text-label-code text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">bolt</span><span class="hidden lg:inline">A100 GPU</span><span class="text-secondary font-semibold">Online</span></div><div class="flex items-center gap-space-xs"><button class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Help &amp; Thermal Glossary" type="button"><span class="material-symbols-outlined text-[20px]">help_outline</span></button><button class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="System Settings &amp; Solver Config" type="button"><span class="material-symbols-outlined text-[20px]">tune</span></button></div><div class="flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UPDZpLLyCNQ9g_wNBTPapjvWEC8sgTAI1-yj7b8SK7ixjQNVELZuGGb9RZD06JW-Cq87LKGY2Z4PCDVlvlAGiJpSW-uOjg-qohPDnVQ5wJO56ErU4_ZSjfEwgr6a99YgvE7hLn6plPpWJ3n83F_SmDMsqeuUsKv6WqjRd4EG_MQxoIZ-aaRlJRVq5K-_IG7xtGwhi18UpmPPTP73jrjUOuI9E2nNt3VdxjzeGw4FpExreQmQGJI2gQqV38"/><div class="hidden xl:flex flex-col"><span class="font-caption text-caption text-on-surface font-semibold leading-tight">Dr. E. Vance</span><span class="font-label-code text-label-code text-on-surface-variant leading-none">Thermal Lead</span></div></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Main Page Container with Controlled Max Width and Ergonomic Whitespace -->
+<div class="w-full max-w-7xl mx-auto px-space-md md:px-space-lg py-space-lg flex flex-col gap-space-lg">
+<!-- Top Meta Ribbon & Page Header -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container font-label-code text-caption text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-semibold text-primary">SYSTEM AUDIT &amp; VERIFICATION REPORT</span>
+<span class="text-outline-variant">•</span>
+<span>Baseline Case: 10-Cell Glycol Transient</span>
+<span class="text-outline-variant">•</span>
+<span class="text-secondary font-medium">Evaluation Protocol v2.4</span>
+</div>
+<!-- Global Report Actions -->
+<div class="flex items-center gap-space-sm">
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-surface-container-lowest text-on-surface shadow-sm hover:bg-surface-container-low transition-all font-headline-sm text-body-sm" onclick="window.print()" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">picture_as_pdf</span>
+<span>Export Audit Report (PDF)</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-primary-container text-on-primary shadow-sm hover:opacity-95 transition-all font-headline-sm text-body-sm" id="btn-run-suite" type="button">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+<span>Run Full Validation Suite</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Evaluation &amp; Validation</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-1">
+            Check how well the models perform, how explanations behave, and whether AI-generated results are supported by verifiable physical and numerical evidence.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-code text-caption bg-surface-container-low px-space-md py-space-xs rounded-lg self-start md:self-auto">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span>Audit Hash: <strong class="text-on-surface">0x7F9B...44A2</strong></span>
+</div>
+</div>
+</div>
+<!-- Foundational Educational Alert Card -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="flex items-start gap-space-md pl-2">
+<div class="w-9 h-9 rounded-xl bg-secondary-container/40 text-on-secondary-container flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-sm text-headline-sm text-on-surface">Why do we evaluate?</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            A working model is not necessarily an accurate model. Evaluation compares predictions or generated outputs with appropriate reference data and tests whether results can be trusted within a defined scope. In safety-critical battery pack cooling, statistical alignment without thermodynamic constraint validation introduces high systemic risk.
+          </p>
+</div>
+</div>
+</div>
+<!-- Overall Evaluation Status Summary Bar (Honest Multi-Tier Assessment) -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">System Reliability Matrix</span>
+<span class="px-space-xs py-0.5 rounded-lg bg-surface-container font-label-code text-caption text-on-surface-variant">7 Modules Assessed</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-code text-caption text-on-surface-variant">
+<span>Verification Coverage:</span>
+<span class="text-primary font-bold text-body-sm">71% Evaluated</span>
+</div>
+</div>
+<!-- Segmented Multi-State Metric Bar -->
+<div class="flex flex-col gap-space-xs">
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-secondary" style="width: 57.1%;" title="4 Modules Fully Verified"></div>
+<div class="h-full bg-surface-variant" style="width: 28.6%;" title="2 Modules Qualified with Physical Caveats"></div>
+<div class="h-full bg-error-container" style="width: 14.3%;" title="1 Module Restricted / Non-Conservative"></div>
+</div>
+<div class="flex flex-wrap items-center justify-between font-caption text-caption text-on-surface-variant pt-1">
+<span class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-secondary inline-block"></span>
+<strong class="text-on-surface">4 Verified:</strong> CFD GCI, SciBERT Intent, FAISS RAG, Provider Ping
+          </span>
+<span class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-surface-variant inline-block"></span>
+<strong class="text-on-surface">2 Qualified with Caveats:</strong> MLP Surrogate (Re=560), VAE Reconstructions
+          </span>
+<span class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-error-container inline-block"></span>
+<strong class="text-on-surface">1 Restricted:</strong> GAN Fields (No PDE Conservation)
+          </span>
+</div>
+</div>
+<!-- Compact Sub-Status Pills -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm pt-space-xs">
+<div class="rounded-xl bg-surface-container-low p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">Numerical Mesh Independence</span>
+</div>
+<span class="font-label-code text-caption text-secondary font-semibold">GCI = 2.14%</span>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">analytics</span>
+<span class="font-body-sm text-body-sm text-on-surface">Thermal Surrogate Fidelity</span>
+</div>
+<span class="font-label-code text-caption text-primary font-semibold">MAE 0.38 °C (Re=560)</span>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-error">warning</span>
+<span class="font-body-sm text-body-sm text-on-surface">GAN Synthesis Physics</span>
+</div>
+<span class="font-label-code text-caption text-error font-semibold">PDE Unenforced</span>
+</div>
+</div>
+</div>
+<!-- SECTION 1: CFD Numerical Consistency & Mesh Convergence -->
+<section class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-code text-caption font-semibold">
+<span>SECTION 01</span>
+<span>/</span>
+<span>NAVIER-STOKES REFERENCE BASELINE</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-0.5">1. Checking the Simulation Data (CFD Numerical Consistency)</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            We compare available meshes and inspect the data to understand how consistent the numerical solutions are.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-[16px] text-secondary">grid_4x4</span>
+<span class="font-label-code text-caption text-on-surface">OpenFOAM v2312 Solver</span>
+</div>
+</div>
+<!-- Educational Card with Structured Pedagogical Framing -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-space-md">
+<div class="lg:col-span-2 rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm">
+<div class="flex flex-col gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">help_center</span>
+              How to interpret this:
+            </span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Differences between mesh solutions help us assess numerical consistency. A finer mesh reduces discretization error, but mesh convergence alone does not prove that the simulation matches real-world measurements without physical sensor correlation.
+            </p>
+</div>
+<div class="pt-space-xs font-label-code text-caption text-on-surface-variant">
+<span>Detected Scalar Fields:</span>
+<div class="flex flex-wrap gap-1.5 mt-1">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-semibold">T (°C)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface">U, V, W (m/s)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface">P (Pa)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface">nu_t (m²/s)</span>
+</div>
+</div>
+</div>
+<!-- Mesh Comparison Table & Metadata -->
+<div class="lg:col-span-3 flex flex-col gap-space-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container text-on-surface font-label-code text-caption">
+<th class="py-2.5 px-space-sm rounded-l-lg">Mesh Tier</th>
+<th class="py-2.5 px-space-sm">Cell Count</th>
+<th class="py-2.5 px-space-sm">Tested Re</th>
+<th class="py-2.5 px-space-sm">Peak Cell T</th>
+<th class="py-2.5 px-space-sm">Drop ΔP</th>
+<th class="py-2.5 px-space-sm rounded-r-lg">Convergence State</th>
+</tr>
+</thead>
+<tbody class="text-on-surface-variant font-body-sm">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-2.5 px-space-sm font-semibold text-on-surface">Coarse Mesh</td>
+<td class="py-2.5 px-space-sm font-label-code">150,420</td>
+<td class="py-2.5 px-space-sm font-label-code">560 &amp; 11,240</td>
+<td class="py-2.5 px-space-sm font-label-code">39.40 °C</td>
+<td class="py-2.5 px-space-sm font-label-code">142.1 Pa</td>
+<td class="py-2.5 px-space-sm"><span class="px-2 py-0.5 rounded bg-surface-container text-tertiary font-label-code text-caption">Baseline</span></td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-2.5 px-space-sm font-semibold text-on-surface">Medium Mesh</td>
+<td class="py-2.5 px-space-sm font-label-code">451,200</td>
+<td class="py-2.5 px-space-sm font-label-code">560 &amp; 11,240</td>
+<td class="py-2.5 px-space-sm font-label-code">38.70 °C</td>
+<td class="py-2.5 px-space-sm font-label-code">148.5 Pa</td>
+<td class="py-2.5 px-space-sm"><span class="px-2 py-0.5 rounded bg-secondary-container/40 text-on-secondary-container font-label-code text-caption">Verified (-1.77% ΔT)</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-2.5 px-space-sm font-semibold text-on-surface">Fine Mesh</td>
+<td class="py-2.5 px-space-sm font-label-code">~1,220,000</td>
+<td class="py-2.5 px-space-sm font-label-code">560 &amp; 11,240</td>
+<td class="py-2.5 px-space-sm font-label-code text-outline">—</td>
+<td class="py-2.5 px-space-sm font-label-code text-outline">—</td>
+<td class="py-2.5 px-space-sm"><span class="px-2 py-0.5 rounded bg-surface-container text-primary font-label-code text-caption animate-pulse">Scanning (VTK Queue)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- GCI Synthesis Box & Midpoint Cell #7 Probe Comparison -->
+<div class="rounded-xl bg-surface-container-low p-space-sm flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px]">calculate</span>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Grid Convergence Index (GCI): 2.14%</span>
+<p class="font-caption text-caption text-on-surface-variant">Richardson extrapolation confirms asymptotic range for coarse-to-medium refinement at laminar regime.</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<span class="font-label-code text-caption text-on-surface-variant">Midpoint Probe Cell #7:</span>
+<div class="font-label-code text-body-sm font-semibold text-on-surface">Coarse 36.8°C vs Med 36.3°C (Δ0.5K)</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Surrogate Model Accuracy & Residual Parity Analysis -->
+<section class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-code text-caption font-semibold">
+<span>SECTION 02</span>
+<span>/</span>
+<span>NEURAL NETWORK SURROGATE BENCHMARK</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-0.5">2. How Accurate Is the Prediction Model? (Surrogate Model Evaluation)</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Benchmarking <code class="font-label-code text-caption bg-surface-container px-1 py-0.5 rounded text-on-surface">MLP-ThermalSurrogate-v1</code> against OpenFOAM Navier-Stokes ground truth.
+          </p>
+</div>
+<div class="font-label-code text-caption text-on-surface-variant bg-surface-container-low px-space-sm py-1 rounded-lg">
+          N = 3,200 points • 80/20 Split • 5-Fold CV
+        </div>
+</div>
+<!-- Primary Quantitative Metrics Grid with Educational Definitions -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm">
+<div>
+<span class="font-label-code text-caption text-on-surface-variant uppercase tracking-wider">Mean Absolute Error</span>
+<div class="font-metric-display text-metric-display text-primary mt-1">0.38 °C</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+            The average absolute difference between surrogate predictions and reference CFD mesh values. Sensor uncertainty margin: ±0.50 °C.
+          </p>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm">
+<div>
+<span class="font-label-code text-caption text-on-surface-variant uppercase tracking-wider">Root Mean Squared Error</span>
+<div class="font-metric-display text-metric-display text-on-surface mt-1">0.52 °C</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+            Penalises larger localized temperature deviations more strongly. Maximum single-point outlier: 1.12 °C in sharp boundary shear layer.
+          </p>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm">
+<div>
+<span class="font-label-code text-caption text-on-surface-variant uppercase tracking-wider">Coefficient of Determination</span>
+<div class="font-metric-display text-metric-display text-secondary mt-1">0.982</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+            Measures how well surrogate inputs explain spatial thermal variance; must always be interpreted alongside absolute MAE.
+          </p>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm">
+<div>
+<span class="font-label-code text-caption text-on-surface-variant uppercase tracking-wider">Test Sample Count</span>
+<div class="font-metric-display text-metric-display text-on-surface mt-1">640 <span class="font-body-sm text-body-sm text-on-surface-variant">pts</span></div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+            Unseen validation samples collected from 4 distinct transient simulation steps across the 10-cell pack channel geometry.
+          </p>
+</div>
+</div>
+<!-- Graphical Visualization Area: Parity Plot & Residual Distribution Chart -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Parity Scatter Plot -->
+<div class="lg:col-span-7 rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Actual vs. Predicted Parity Plot</span>
+<span class="font-label-code text-caption text-on-surface-variant">T [20 °C – 42 °C] • ±0.5°C Bound</span>
+</div>
+<!-- Inline Visual Parity Graphic SVG -->
+<div class="relative w-full h-64 bg-surface-container-lowest rounded-xl p-space-sm flex items-center justify-center overflow-hidden">
+<svg class="w-full h-full text-on-surface" fill="none" viewbox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+<!-- Grid background lines -->
+<line stroke="currentColor" stroke-dasharray="2 2" stroke-opacity="0.06" x1="40" x2="380" y1="20" y2="20"></line>
+<line stroke="currentColor" stroke-dasharray="2 2" stroke-opacity="0.06" x1="40" x2="380" y1="65" y2="65"></line>
+<line stroke="currentColor" stroke-dasharray="2 2" stroke-opacity="0.06" x1="40" x2="380" y1="110" y2="110"></line>
+<line stroke="currentColor" stroke-dasharray="2 2" stroke-opacity="0.06" x1="40" x2="380" y1="155" y2="155"></line>
+<line stroke="currentColor" stroke-opacity="0.12" x1="40" x2="380" y1="200" y2="200"></line>
+<line stroke="currentColor" stroke-opacity="0.12" x1="40" x2="40" y1="20" y2="200"></line>
+<!-- Confidence Band (+/- 0.5C) -->
+<polygon class="text-primary-container" fill="currentColor" fill-opacity="0.08" points="40,195 380,25 380,15 40,185"></polygon>
+<!-- 45 Degree Perfect Parity Line -->
+<line class="text-outline" stroke="currentColor" stroke-dasharray="4 4" stroke-width="1.5" x1="40" x2="380" y1="190" y2="20"></line>
+<!-- Scatter Dots (Sampled Representative Clusters) -->
+<circle cx="65" cy="177" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="85" cy="166" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="95" cy="162" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="120" cy="148" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="145" cy="136" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="160" cy="129" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="180" cy="118" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="195" cy="112" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="210" cy="103" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="230" cy="94" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="245" cy="85" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="270" cy="74" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="290" cy="63" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="310" cy="52" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="335" cy="42" fill="#2563eb" opacity="0.7" r="3"></circle>
+<circle cx="355" cy="31" fill="#ba1a1a" opacity="0.85" r="3.5" title="Shear Layer Outlier 1.12 C"></circle>
+<!-- Axis Labels -->
+<text fill="currentColor" font-family="JetBrains Mono" font-size="10" opacity="0.5" x="40" y="215">20°C</text>
+<text fill="currentColor" font-family="JetBrains Mono" font-size="10" opacity="0.5" x="200" y="215">31°C Actual Reference</text>
+<text fill="currentColor" font-family="JetBrains Mono" font-size="10" opacity="0.5" x="360" y="215">42°C</text>
+<text fill="currentColor" font-family="JetBrains Mono" font-size="9" opacity="0.5" transform="rotate(-90 8 110)" x="8" y="110">Surrogate T (°C)</text>
+</svg>
+</div>
+<div class="flex items-center justify-between font-caption text-caption text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary-container"></span> 95% Confidence Corridor (±0.5 °C)</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-error"></span> Max Shear Outlier (+1.12 °C)</span>
+</div>
+</div>
+<!-- Residual Distribution Histogram -->
+<div class="lg:col-span-5 rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Residual Distribution</span>
+<span class="font-label-code text-caption text-secondary font-semibold">Mean ~ -0.02 °C</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Error histogram indicates near-Gaussian residual bell centered at zero, bounded in [-0.8 °C, +0.9 °C].</p>
+</div>
+<!-- Mini Histogram Visual -->
+<div class="h-44 bg-surface-container-lowest rounded-xl p-space-sm flex items-end justify-between gap-1.5 px-space-md">
+<div class="w-full bg-surface-variant rounded-t-sm" style="height: 12%;" title="-0.8 °C (8 pts)"></div>
+<div class="w-full bg-surface-variant rounded-t-sm" style="height: 24%;" title="-0.6 °C (26 pts)"></div>
+<div class="w-full bg-surface-variant rounded-t-sm" style="height: 48%;" title="-0.4 °C (74 pts)"></div>
+<div class="w-full bg-primary rounded-t-sm" style="height: 85%;" title="-0.2 °C (162 pts)"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 100%;" title="0.0 °C (224 pts)"></div>
+<div class="w-full bg-primary rounded-t-sm" style="height: 72%;" title="+0.2 °C (130 pts)"></div>
+<div class="w-full bg-surface-variant rounded-t-sm" style="height: 38%;" title="+0.4 °C (52 pts)"></div>
+<div class="w-full bg-surface-variant rounded-t-sm" style="height: 18%;" title="+0.6 °C (18 pts)"></div>
+<div class="w-full bg-error-container rounded-t-sm" style="height: 8%;" title="+0.8 °C (6 pts)"></div>
+</div>
+<div class="flex items-center justify-between font-label-code text-caption text-on-surface-variant">
+<span>-0.8 °C</span>
+<span>Error Residual (T_pred - T_ref)</span>
+<span>+0.8 °C</span>
+</div>
+</div>
+</div>
+<!-- Critical Physical Caveat Drawer -->
+<div class="rounded-xl bg-surface-container p-space-sm flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">info</span>
+<div class="flex flex-col">
+<span class="font-label-code text-caption text-primary font-bold">PHYSICAL VALIDITY BOUNDARY</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Meaning depends on target units: This evaluation is strictly valid for <strong class="text-on-surface">Re = 560 laminar flow in 2mm rectangular mini-channels</strong>. Extrapolation to turbulent conditions (Re = 11,240) exhibits non-linear divergence and requires structural retraining with transitional SST turbulence data.
+          </p>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Explainable AI Lab Evaluation (SHAP & LIME) -->
+<section class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-secondary font-label-code text-caption font-semibold">
+<span>SECTION 03</span>
+<span>/</span>
+<span>INTERPRETABILITY &amp; FEATURE IMPORTANCE CHECK</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-0.5">3. Can We Understand the Model? (SHAP &amp; LIME Interpretability Evaluation)</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            SHAP and LIME help us inspect which features influenced a model prediction. They do not independently prove that the prediction is physically causal.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 rounded-lg">
+<span class="font-label-code text-caption text-on-surface">LIME Local Surrogate R² = 0.91 (ε = 0.05)</span>
+</div>
+</div>
+<!-- Comparative Explanatory Matrix -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container text-on-surface font-label-code text-caption">
+<th class="py-2.5 px-space-sm rounded-l-lg">Feature Variable</th>
+<th class="py-2.5 px-space-sm">SHAP Global Importance</th>
+<th class="py-2.5 px-space-sm">LIME Local Weight (Cell #7)</th>
+<th class="py-2.5 px-space-sm">Methodological Consistency</th>
+<th class="py-2.5 px-space-sm rounded-r-lg">Physical Plausibility Note</th>
+</tr>
+</thead>
+<tbody class="text-on-surface-variant font-body-sm">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-2.5 px-space-sm font-semibold text-on-surface">
+<span class="font-label-code">Coolant Velocity (U_in)</span>
+</td>
+<td class="py-2.5 px-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-16 h-2 rounded bg-primary inline-block"></span>
+<span class="font-label-code text-on-surface font-medium">Rank #1 (+1.84 °C)</span>
+</div>
+</td>
+<td class="py-2.5 px-space-sm font-label-code text-on-surface font-medium">+0.48 (Elevates T_max)</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded bg-secondary-container/40 text-on-secondary-container font-label-code text-caption">Strong Alignment</span>
+</td>
+<td class="py-2.5 px-space-sm font-caption text-caption">Directly governs convective heat transfer coefficient (h ∝ U^0.8).</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-2.5 px-space-sm font-semibold text-on-surface">
+<span class="font-label-code">Cell Heat Dissipation (Q_cell)</span>
+</td>
+<td class="py-2.5 px-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-12 h-2 rounded bg-primary inline-block"></span>
+<span class="font-label-code text-on-surface font-medium">Rank #2 (+1.42 °C)</span>
+</div>
+</td>
+<td class="py-2.5 px-space-sm font-label-code text-on-surface font-medium">+0.39 (Elevates T_max)</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded bg-secondary-container/40 text-on-secondary-container font-label-code text-caption">Strong Alignment</span>
+</td>
+<td class="py-2.5 px-space-sm font-caption text-caption">Energy source term directly dictates sensible thermal generation.</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-2.5 px-space-sm font-semibold text-on-surface">
+<span class="font-label-code">Reynolds Number (Re)</span>
+</td>
+<td class="py-2.5 px-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-8 h-2 rounded bg-surface-variant inline-block"></span>
+<span class="font-label-code text-on-surface font-medium">Rank #3 (+0.95 °C)</span>
+</div>
+</td>
+<td class="py-2.5 px-space-sm font-label-code text-on-surface-variant">Filtered in local slice</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded bg-surface-container text-tertiary font-label-code text-caption">Moderate (Collinear)</span>
+</td>
+<td class="py-2.5 px-space-sm font-caption text-caption">Collinear with velocity; perturbs boundary layer stability.</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-2.5 px-space-sm font-semibold text-on-surface">
+<span class="font-label-code">Inlet Coolant Temp (T_in)</span>
+</td>
+<td class="py-2.5 px-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-5 h-2 rounded bg-surface-variant inline-block"></span>
+<span class="font-label-code text-on-surface font-medium">Rank #4 (+0.68 °C)</span>
+</div>
+</td>
+<td class="py-2.5 px-space-sm font-label-code text-on-surface-variant">-0.15 (Attenuates)</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-label-code text-caption">Directional Alignment</span>
+</td>
+<td class="py-2.5 px-space-sm font-caption text-caption">Boundary Dirichlet condition; shifts baseline temperature floor.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Educational Comparative Synthesis Box -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col md:flex-row items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[22px]">compare_arrows</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Comparing SHAP and LIME in Battery CFD:</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            SHAP calculates cooperative game-theoretic Shapley contributions across all feature permutations, while LIME constructs an interpretable linear surrogate in the local neighborhood. When both methods agree on primary drivers (<span class="font-label-code font-semibold">U_in</span> and <span class="font-label-code font-semibold">Q_cell</span>), researcher confidence increases, but neither method guarantees physical causal mechanisms or Navier-Stokes compliance.
+          </p>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Generative AI Fidelity & Physics Assessment -->
+<section class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-error font-label-code text-caption font-semibold">
+<span>SECTION 04</span>
+<span>/</span>
+<span>SYNTHETIC DISTRIBUTION &amp; CONSERVATION AUDIT</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-0.5">4. Are the Generated Samples Useful? (Generative AI Fidelity &amp; Physics Assessment)</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Differentiating variational latent reconstruction from adversarial synthetic generation.
+          </p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Card A: VAE Reconstruction -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">layers</span>
+                VAE Reconstruction Evaluation
+              </span>
+<span class="font-label-code text-caption text-secondary font-bold">ConvVAE-32d</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Evaluated on N = 240 held-out CFD 64x64 scalar thermal patches.</p>
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<div class="rounded-lg bg-surface-container-lowest p-space-sm">
+<span class="font-label-code text-caption text-on-surface-variant">Reconstruction MAE</span>
+<div class="font-headline-md text-headline-md text-primary mt-0.5">0.38 °C</div>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-space-sm">
+<span class="font-label-code text-caption text-on-surface-variant">Mean Squared Error</span>
+<div class="font-headline-md text-headline-md text-on-surface mt-0.5">0.042 °C²</div>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-space-sm">
+<span class="font-label-code text-caption text-on-surface-variant">Peak SNR (PSNR)</span>
+<div class="font-headline-md text-headline-md text-secondary mt-0.5">34.2 dB</div>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-space-sm">
+<span class="font-label-code text-caption text-on-surface-variant">Latent Compression</span>
+<div class="font-headline-md text-headline-md text-on-surface mt-0.5">94.8%</div>
+</div>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-secondary-container/20 text-on-secondary-container font-caption text-caption flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>
+<span>High geometric fidelity for macroscopic isotherms. Preserves continuous thermal gradients across liquid channel boundaries.</span>
+</div>
+</div>
+<!-- Card B: GAN Field Generation Assessment -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-error text-[20px]">hub</span>
+                GAN Field Generation Evaluation
+              </span>
+<span class="font-label-code text-caption text-error font-bold">WGAN-GP</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Distribution divergence: KL Divergence = 0.018 • Fréchet Video/Physics Distance = 4.12</p>
+<!-- Physical Plausibility Checklist -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-lowest font-body-sm text-body-sm">
+<span class="text-on-surface">Temperature Range [21.4°C – 39.8°C]</span>
+<span class="font-label-code text-caption text-secondary font-semibold">PASSED</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-lowest font-body-sm text-body-sm">
+<span class="text-on-surface">Spatial Gradient Continuity</span>
+<span class="font-label-code text-caption text-primary font-semibold">CAUTION (Deconv Noise ±0.3°C)</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-lowest font-body-sm text-body-sm">
+<span class="text-on-surface">Mass &amp; Energy Conservation (PDE)</span>
+<span class="font-label-code text-caption text-error font-semibold">FAILED / NOT ENFORCED</span>
+</div>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-error-container/40 text-on-error-container font-caption text-caption flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-error shrink-0">report_problem</span>
+<span>Pure statistical synthesis. The generator matches statistical textures but violates divergence-free velocity constraints.</span>
+</div>
+</div>
+</div>
+<!-- Prominent Warning Banner -->
+<div class="rounded-xl bg-error-container/20 p-space-md flex items-start gap-space-md">
+<span class="material-symbols-outlined text-error text-[24px] shrink-0 mt-0.5">gpp_maybe</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-sm text-headline-sm text-error">Critical Engineering Warning: Synthetic Samples</span>
+<p class="font-body-md text-body-md text-on-surface">
+            Generated samples are synthetic. Similarity to real data does not establish that a generated field is physically valid or represents a verified new cooling design. <strong class="underline decoration-error/50">Never transfer GAN fields to CAD tooling or manufacturing simulations without complete solver verification.</strong>
+</p>
+</div>
+</div>
+</section>
+<!-- SECTION 5: Knowledge Assistant (SciBERT & RAG) -->
+<section class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-code text-caption font-semibold">
+<span>SECTION 05</span>
+<span>/</span>
+<span>NLP INTENT &amp; CITATION GROUNDING FIDELITY</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-0.5">5. Can We Trust the Knowledge Assistant? (BERT Classifier &amp; RAG Retrieval Evaluation)</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Validating intent recognition accuracy and factual grounding against peer-reviewed thermal literature chunks.
+          </p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- SciBERT Classifier Performance -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">SciBERT Technical Intent Classifier</span>
+<span class="font-label-code text-caption text-primary font-bold">N = 250 Queries</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Benchmarked across 6 specialized thermal categories (CHT, Phase Change, Heat Pipes, Pumping Loss, etc.).</p>
+<div class="grid grid-cols-3 gap-space-sm pt-space-xs">
+<div class="rounded-lg bg-surface-container-lowest p-space-sm text-center">
+<span class="font-label-code text-caption text-on-surface-variant">Precision</span>
+<div class="font-headline-md text-headline-md text-primary mt-1">95.8%</div>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-space-sm text-center">
+<span class="font-label-code text-caption text-on-surface-variant">Recall</span>
+<div class="font-headline-md text-headline-md text-on-surface mt-1">94.2%</div>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-space-sm text-center">
+<span class="font-label-code text-caption text-on-surface-variant">F1-Score</span>
+<div class="font-headline-md text-headline-md text-secondary mt-1">95.0%</div>
+</div>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container font-caption text-caption text-on-surface-variant">
+<span class="font-semibold text-on-surface">Confusion Matrix Summary:</span> 96.4% on Conjugate Heat Transfer queries; minor confusion (3.6%) observed between Turbulent Transition and Pressure Drop formulations.
+          </div>
+</div>
+<!-- RAG Vector Retrieval & Citation Grounding -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">RAG Vector Retrieval &amp; Grounding</span>
+<span class="font-label-code text-caption text-secondary font-bold">FAISS Index</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Dense retrieval accuracy over 1,480 indexed IEEE and ASME battery thermal management papers.</p>
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<div class="rounded-lg bg-surface-container-lowest p-space-sm">
+<span class="font-label-code text-caption text-on-surface-variant">Top-3 Precision</span>
+<div class="font-headline-md text-headline-md text-secondary mt-1">91.4%</div>
+<span class="font-caption text-caption text-on-surface-variant">Relevant chunks in top-3</span>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-space-sm">
+<span class="font-label-code text-caption text-on-surface-variant">Mean Reciprocal Rank (MRR)</span>
+<div class="font-headline-md text-headline-md text-on-surface mt-1">0.884</div>
+<span class="font-caption text-caption text-on-surface-variant">First hit rank reciprocal</span>
+</div>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-secondary-container/20 text-on-secondary-container font-caption text-caption flex items-center justify-between">
+<span>Citation Grounding Traceability:</span>
+<span class="font-label-code font-bold">98.2% Direct Chunk Linkage</span>
+</div>
+</div>
+</div>
+<!-- Educational Card -->
+<div class="rounded-xl bg-surface-container p-space-sm flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">format_quote</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong>Educational Note:</strong> An answer can sound convincing while being factually incorrect. Retrieval and citation checks help us inspect the evidence behind it, verifying whether numerical constants (<em class="font-label-code">k_fluid = 0.42 W/m·K</em>) originate from verified references or model hallucination.
+        </p>
+</div>
+</section>
+<!-- SECTION 6: AI Provider Connection & Verification Status -->
+<section class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-code text-caption font-semibold">
+<span>SECTION 06</span>
+<span>/</span>
+<span>INFRASTRUCTURE CONNECTIVITY AUDIT</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-0.5">6. AI Provider Connection &amp; Verification Status</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Real-time telemetry and API probe audit for configured reasoning backends.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-label-code text-caption text-tertiary font-semibold">GPT-OSS status not verified in this static view</span>
+</div>
+</div>
+<!-- Independent Provider Cards -->
+<div class="grid grid-cols-1 gap-space-md">
+<!-- GPT-OSS provider status -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">memory</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">GPT-OSS</h3>
+<span class="font-label-code text-caption text-on-surface-variant">Configured GPT-OSS API · backend-only credentials</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-code text-caption">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Not Verified
+              </span>
+</div>
+<div class="flex flex-col gap-space-xs font-label-code text-caption text-on-surface-variant pt-space-xs">
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-lowest">
+<span>Configured model:</span>
+<span class="text-on-surface font-semibold">openai/gpt-oss-120b</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-lowest">
+<span>Inference latency:</span>
+<span class="text-tertiary font-semibold">Not measured</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-lowest">
+<span>Verification timestamp:</span>
+<span class="text-on-surface">Not available in static view</span>
+</div>
+</div>
+</div>
+<div class="rounded-lg bg-surface-container p-space-sm font-caption text-caption text-on-surface-variant flex items-center justify-between">
+<span>Connectivity and inference probes are separate</span>
+<span class="text-tertiary font-label-code font-semibold">NOT VERIFIED</span>
+</div>
+</div>
+</div>
+<!-- Infrastructure Cautionary Disclaimer -->
+<div class="rounded-xl bg-surface-container p-space-md flex items-start gap-space-md">
+<span class="material-symbols-outlined text-outline text-[20px] shrink-0 mt-0.5">policy</span>
+<p class="font-caption text-caption text-on-surface-variant">
+<strong class="text-on-surface">Validation Scope Disclaimer:</strong> A successful connection test proves only that the upstream provider responded to the test request within allowable network timeouts. It does not prove that every generated narrative answer is physically correct. All numerical predictions must be cross-checked against raw OpenFOAM VTK mesh exports before commissioning cooling plate hardware.
+        </p>
+</div>
+</section>
+<!-- Bottom Footer Meta Banner -->
+<div class="py-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant font-label-code text-caption">
+<span>ThermoExplain AI Validation Suite • IEEE Trans. Transp. Electrif. Baseline Protocol</span>
+<span>Build: 0.8.2-research-2025 • VTK Bridge Active</span>
+</div>
+</div>
+</div>
+<script type="module" src="/src/validation-main.tsx"></script>
+<script type="module" src="/src/stitch-navigation.ts"></script></main></div></body></html>

@@ -1,0 +1,52 @@
+# Secrets and local configuration
+.env
+!.env.example
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Frontend
+node_modules/
+frontend/dist/
+frontend/coverage/
+*.tsbuildinfo
+.tsupgrader/
+
+# Research data and generated artifacts
+cht_battery/
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/knowledge/*
+!data/knowledge/.gitkeep
+data/reports/*
+!data/reports/.gitkeep
+!data/reports/data-audit.md
+backend/data/*
+!backend/data/.gitkeep
+backend/saved_models/*
+!backend/saved_models/.gitkeep
+*.vtk
+*.vtu
+*.foam
+*.h5
+*.hdf5
+*.joblib
+*.pkl
+*.tmp
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

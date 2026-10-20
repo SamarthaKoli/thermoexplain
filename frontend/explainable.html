@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "error": "#ba1a1a", "on-primary-container": "#eeefff", "on-tertiary-container": "#ecf1ff", "tertiary-fixed-dim": "#bcc7de", "surface-container-low": "#eff4ff", "background": "#f8f9ff", "on-secondary-fixed-variant": "#005049", "surface-container": "#e5eeff", "surface-container-highest": "#d3e4fe", "tertiary-fixed": "#d8e3fb", "inverse-primary": "#b4c5ff", "surface-container-high": "#dce9ff", "secondary-fixed": "#89f5e7", "outline-variant": "#c3c6d7", "primary": "#004ac6", "tertiary-container": "#636e83", "surface-tint": "#0053db", "secondary-container": "#86f2e4", "on-secondary-fixed": "#00201d", "surface-bright": "#f8f9ff", "surface": "#f8f9ff", "secondary-fixed-dim": "#6bd8cb", "primary-container": "#2563eb", "secondary": "#006a61", "on-tertiary-fixed": "#111c2d", "primary-fixed": "#dbe1ff", "inverse-surface": "#213145", "on-background": "#0b1c30", "on-tertiary-fixed-variant": "#3c475a", "inverse-on-surface": "#eaf1ff", "surface-dim": "#cbdbf5", "on-error-container": "#93000a", "on-tertiary": "#ffffff", "on-secondary-container": "#006f66", "on-primary-fixed": "#00174b", "on-secondary": "#ffffff", "on-surface": "#0b1c30", "tertiary": "#4b566a", "primary-fixed-dim": "#b4c5ff", "on-primary-fixed-variant": "#003ea8", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "outline": "#737686", "surface-variant": "#d3e4fe", "on-error": "#ffffff", "on-surface-variant": "#434655", "error-container": "#ffdad6" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xl": "2.5rem", "space-sm": "0.5rem", "margin-mobile": "1rem", "space-md": "1rem", "gutter-sm": "1rem", "gutter": "1.5rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "margin": "2rem" }, "fontFamily": { "headline-lg": [ "Inter" ], "label-code": [ "JetBrains Mono" ], "body-md": [ "Inter" ], "body-sm": [ "Inter" ], "headline-md": [ "Inter" ], "headline-sm": [ "Inter" ], "metric-display": [ "Inter" ], "caption": [ "Inter" ], "headline-xl": [ "Inter" ], "body-lg": [ "Inter" ], "headline-xl-mobile": [ "Inter" ] }, "fontSize": { "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "label-code": [ "12px", { "lineHeight": "16px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "body-md": [ "14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" } ], "body-sm": [ "13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "metric-display": [ "28px", { "lineHeight": "34px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "caption": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "headline-xl": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "600" } ], "body-lg": [ "16px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" } ], "headline-xl-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 flex items-center px-space-md gap-space-sm bg-surface-container-lowest"><div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center p-space-xs"><span class="material-symbols-outlined text-primary text-[20px]">science</span></div><div class="flex flex-col min-w-0"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate">ThermoExplain AI</span><span class="font-caption text-caption text-on-surface-variant tracking-normal truncate">CFD &amp; Battery AI Lab</span></div></div><div class="px-space-md py-space-xs"><div class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider px-space-xs py-space-xs">Core Modules</div></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-headline-sm rounded-xl"><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="overview-dashboard" href="#">Overview Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="cfd-explorer-design-analysis" href="#">CFD Explorer &amp; Design Analysis</a><a aria-current="page" class="flex items-center px-space-md py-space-sm transition-all bg-primary-container text-on-primary font-headline-sm rounded-xl" data-path="explainable-ai-lab" href="#">Explainable AI Lab</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="generative-ai-lab" href="#">Generative AI Lab</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="thermal-knowledge-assistant" href="#">Thermal Knowledge Assistant</a><a class="flex items-center px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="evaluation-validation" href="#">Evaluation &amp; Validation</a></nav></div><div class="p-space-md m-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-code text-label-code text-on-surface font-semibold">v0.8.2-research</span><a class="font-caption text-caption text-primary hover:text-primary-container transition-colors" href="#">Quick Docs</a></div><p class="font-caption text-caption text-on-surface-variant leading-tight">CFD-Thermal Surrogate Model Platform (IEEE Trans. Transp. Electrif. Study)</p></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><span class="px-space-xs py-0.5 rounded-lg bg-surface-container text-on-surface font-label-code text-label-code">Study: 10-Cell Pack (Transient)</span><div class="hidden md:flex items-center gap-space-xs text-on-surface-variant font-caption text-caption"><span class="material-symbols-outlined text-[16px] text-secondary">device_thermostat</span><span>Coolant: Water-Glycol 50:50</span></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-secondary-container/30 text-on-secondary-container font-label-code text-label-code"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span>Dataset: Ready (4 cases loaded)</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-xl bg-surface-container-low font-label-code text-label-code text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">bolt</span><span class="hidden lg:inline">A100 GPU</span><span class="text-secondary font-semibold">Online</span></div><div class="flex items-center gap-space-xs"><button class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Help &amp; Thermal Glossary" type="button"><span class="material-symbols-outlined text-[20px]">help_outline</span></button><button class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="System Settings &amp; Solver Config" type="button"><span class="material-symbols-outlined text-[20px]">tune</span></button></div><div class="flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UPDZpLLyCNQ9g_wNBTPapjvWEC8sgTAI1-yj7b8SK7ixjQNVELZuGGb9RZD06JW-Cq87LKGY2Z4PCDVlvlAGiJpSW-uOjg-qohPDnVQ5wJO56ErU4_ZSjfEwgr6a99YgvE7hLn6plPpWJ3n83F_SmDMsqeuUsKv6WqjRd4EG_MQxoIZ-aaRlJRVq5K-_IG7xtGwhi18UpmPPTP73jrjUOuI9E2nNt3VdxjzeGw4FpExreQmQGJI2gQqV38"/><div class="hidden xl:flex flex-col"><span class="font-caption text-caption text-on-surface font-semibold leading-tight">Dr. E. Vance</span><span class="font-label-code text-label-code text-on-surface-variant leading-none">Thermal Lead</span></div></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background"><div class="flex flex-col w-full">
+<div class="px-space-md md:px-space-lg lg:px-margin py-space-md flex flex-col gap-space-lg max-w-[1440px] mx-auto w-full">
+<!-- Section 1: Page Header & Scientific Intro -->
+<div class="flex flex-col gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-space-sm py-0.5 rounded-lg bg-surface-container text-primary font-label-code text-label-code font-semibold tracking-wide">
+            XAI DIAGNOSTIC MODULE / SURROGATE INTERPRETABILITY
+          </span>
+<span class="px-space-sm py-0.5 rounded-lg bg-secondary-container/30 text-on-secondary-container font-label-code text-label-code flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Model: MLP-ThermalSurrogate-v1 (Re=560 Verified)
+          </span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-caption text-caption">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>OpenFOAM v2312 Baseline Linked</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Explainable AI Lab</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-4xl">
+          See what the model predicted, why it made that prediction, and how much confidence we should place in the result.
+        </p>
+</div>
+<!-- Educational Info Card -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">What is Explainable AI?</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Explainable AI (XAI) helps us understand which thermal boundary conditions and flow parameters influenced a model's output. It makes high-dimensional CFD surrogate approximations inspectable rather than treating them as uninterpretable black boxes.
+          </p>
+</div>
+</div>
+<!-- 4-Step Interactive Workflow Indicator -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm pt-space-xs">
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-center gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-code text-label-code font-bold">✓</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase">Step 1</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Choose Input</span>
+</div>
+</div>
+<div class="p-space-sm rounded-xl bg-primary-container text-on-primary flex items-center gap-space-sm shadow-sm">
+<div class="w-6 h-6 rounded-full bg-on-primary text-primary flex items-center justify-center font-label-code text-label-code font-bold">2</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-on-primary-container uppercase">Step 2 (Active)</span>
+<span class="font-headline-sm text-headline-sm text-on-primary truncate">Run Model</span>
+</div>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex items-center gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-code text-label-code font-bold">3</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase">Step 3</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Inspect Prediction</span>
+</div>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex items-center gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-code text-label-code font-bold">4</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase">Step 4</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Explore Explanation</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Workspace Split: Left Configurator / Right Diagnostics -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column: Setup Panel (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Prediction Setup</h2>
+</div>
+<span class="font-label-code text-label-code px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant">Laminar CFD</span>
+</div>
+<!-- Step 1: Model Selection -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-code text-label-code text-on-surface font-semibold flex items-center gap-1">
+<span>01. MODEL SELECTION</span>
+</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm p-space-sm rounded-xl appearance-none focus:outline-none focus:ring-2 focus:ring-primary/40 cursor-pointer pr-8">
+<option selected="">MLP-ThermalSurrogate-v1 (Active - Re=560 Coarse/Med)</option>
+<option>RandomForest-Baseline (Available)</option>
+<option>GNN-ConvectiveMesh (Pre-release)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 pointer-events-none text-on-surface-variant text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Step 2: Prediction Target -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-code text-label-code text-on-surface font-semibold">02. PREDICTION TARGET</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm p-space-sm rounded-xl appearance-none focus:outline-none focus:ring-2 focus:ring-primary/40 cursor-pointer pr-8">
+<option selected="">Peak Hotspot Temperature: T_max (°C)</option>
+<option>Outlet Core Differential: ΔT_fluid (K)</option>
+<option>Inter-Cell Temp Variance: σ²(T_cell) (°C²)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 pointer-events-none text-on-surface-variant text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Step 3: Input Features -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<span class="font-label-code text-label-code text-on-surface font-semibold">03. INPUT FEATURES (CFD SCHEMA)</span>
+<!-- Feature 1: Coolant Flow Velocity -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="text-on-surface font-medium">Coolant Flow Velocity (U_in)</span>
+<span class="font-label-code text-label-code font-bold text-primary">0.18 m/s</span>
+</div>
+<input class="w-full accent-primary h-1 bg-surface-container-highest rounded-lg cursor-pointer" max="0.50" min="0.05" step="0.01" type="range" value="0.18"/>
+<span class="font-caption text-caption text-on-surface-variant text-right">Range: 0.05 — 0.50 m/s</span>
+</div>
+<!-- Feature 2: Reynolds Number -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="text-on-surface font-medium">Reynolds Number (Re)</span>
+<span class="font-label-code text-label-code font-bold text-secondary">560 (Laminar)</span>
+</div>
+<input class="w-full accent-secondary h-1 bg-surface-container-highest rounded-lg cursor-pointer" max="1800" min="150" step="10" type="range" value="560"/>
+<span class="font-caption text-caption text-on-surface-variant text-right">Laminar regime (&lt;2100)</span>
+</div>
+<!-- Feature 3: Heat Dissipation -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="text-on-surface font-medium">Cell Heat Dissipation (Q_cell)</span>
+<span class="font-label-code text-label-code font-bold text-on-surface">35.0 W/cell</span>
+</div>
+<input class="w-full accent-primary h-1 bg-surface-container-highest rounded-lg cursor-pointer" max="60" min="10" step="0.5" type="range" value="35.0"/>
+<span class="font-caption text-caption text-on-surface-variant text-right">Nominal 2C Discharge</span>
+</div>
+<!-- Feature 4: Inlet Coolant Temp -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="text-on-surface font-medium">Inlet Coolant Temp (T_in)</span>
+<span class="font-label-code text-label-code font-bold text-on-surface">20.0 °C</span>
+</div>
+<input class="w-full accent-primary h-1 bg-surface-container-highest rounded-lg cursor-pointer" max="35" min="10" step="0.5" type="range" value="20.0"/>
+<span class="font-caption text-caption text-on-surface-variant text-right">Chiller Setpoint</span>
+</div>
+</div>
+<!-- Step 4: Action Buttons -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<button class="w-full py-space-sm px-space-md rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm shadow-sm hover:bg-primary-container transition-all flex items-center justify-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span>Run Prediction</span>
+</button>
+<button class="w-full py-space-sm px-space-md rounded-xl bg-surface-container text-primary font-headline-sm text-headline-sm hover:bg-surface-container-high transition-all flex items-center justify-center gap-space-xs" title="Enabled after running prediction - calculated SHAP &amp; LIME available" type="button">
+<span class="material-symbols-outlined text-[18px]">scatter_plot</span>
+<span>Generate Explanation</span>
+</button>
+<p class="font-caption text-caption text-on-surface-variant text-center">
+              SHAP &amp; LIME cache synchronized with current GPU kernel.
+            </p>
+</div>
+<!-- Expandable Accordion: Advanced Model Details -->
+<details class="group rounded-xl bg-surface-container-low p-space-sm">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-on-surface">
+<span class="flex items-center gap-space-xs text-caption font-caption font-semibold">
+<span class="material-symbols-outlined text-[18px] text-tertiary">memory</span>
+                Advanced Model Details
+              </span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180 text-[18px] text-on-surface-variant">expand_more</span>
+</summary>
+<div class="pt-space-sm mt-space-xs flex flex-col gap-space-xs font-label-code text-label-code text-on-surface-variant">
+<div class="flex justify-between py-0.5">
+<span>Feature Scaling</span>
+<span class="text-on-surface font-semibold">Standardized (z-score)</span>
+</div>
+<div class="flex justify-between py-0.5">
+<span>Architecture</span>
+<span class="text-on-surface font-semibold">MLP [64, 32, 16] ReLU</span>
+</div>
+<div class="flex justify-between py-0.5">
+<span>Training MSE</span>
+<span class="text-on-surface font-semibold">0.042 °C²</span>
+</div>
+<div class="flex justify-between py-0.5">
+<span>Holdout Validation</span>
+<span class="text-on-surface font-semibold">20% Stratified</span>
+</div>
+<div class="flex justify-between py-0.5">
+<span>Loss Function</span>
+<span class="text-on-surface font-semibold">Huber (δ = 1.0)</span>
+</div>
+</div>
+</details>
+</div>
+<!-- Mini Visual Component: Synthetic Geometry Mesh preview -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-caption text-caption font-semibold text-on-surface">10-Cell Cooling Jacket Boundary</span>
+<span class="font-label-code text-label-code text-secondary">Z-Midplane</span>
+</div>
+<div class="relative h-28 bg-surface-container-low rounded-xl overflow-hidden flex items-center justify-center p-space-sm">
+<svg class="w-full h-full text-primary" fill="none" viewbox="0 0 320 80">
+<!-- Channel boundary -->
+<path class="opacity-25" d="M 10 40 L 310 40" stroke="currentColor" stroke-dasharray="4 2" stroke-width="2"></path>
+<!-- 10 Cells representation -->
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="25" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="52" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="79" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="106" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="133" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="160" y="16"></rect>
+<!-- Cell 7: Highlighted hotspot -->
+<rect class="fill-primary/20 stroke-primary" height="48" rx="3" stroke-width="1.5" width="18" x="187" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="214" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="241" y="16"></rect>
+<rect class="fill-surface-container-highest stroke-outline/20" height="48" rx="3" width="18" x="268" y="16"></rect>
+<!-- Hotspot marker callout -->
+<circle cx="196" cy="40" fill="#ba1a1a" r="3"></circle>
+<text class="fill-primary font-label-code text-[8px] font-semibold" x="180" y="74">Cell #7 (T_max)</text>
+<!-- Inlet vector -->
+<path d="M 8 40 L 20 40 M 16 36 L 20 40 L 16 44" stroke="#006a61" stroke-width="1.5"></path>
+<text class="fill-secondary font-label-code text-[7px] font-semibold" x="5" y="32">U_in 0.18</text>
+</svg>
+</div>
+<span class="font-caption text-caption text-on-surface-variant leading-tight">
+            Thermal hotspot predictably occurs near Cell #7 due to cumulative heat uptake in laminar flow.
+          </span>
+</div>
+</div>
+<!-- Right Column: Results & XAI Diagnostic Modules (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- 3. Prominent Prediction Result & Calibration Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[22px]">thermostat</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Surrogate Prediction &amp; Validation Gauge</h2>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-label-code text-label-code font-semibold">
+              95% Confidence Verified
+            </span>
+</div>
+<!-- Quantitative Highlights Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Predicted Value -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-on-surface-variant font-medium">Model Estimate</span>
+<span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary font-label-code text-[10px] font-bold">MLP</span>
+</div>
+<div class="font-metric-display text-metric-display text-primary tracking-tight">39.1 °C</div>
+<span class="font-caption text-caption text-on-surface-variant">Peak Hotspot: Cell #7</span>
+</div>
+<!-- Ground Truth / Reference Value -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-on-surface-variant font-medium">Ground Truth (CFD)</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface font-label-code text-[10px] font-bold">OpenFOAM</span>
+</div>
+<div class="font-metric-display text-metric-display text-on-surface tracking-tight">39.4 °C</div>
+<span class="font-caption text-caption text-on-surface-variant">Case-10Cell-Baseline-TransHeat</span>
+</div>
+<!-- Error Metric -->
+<div class="p-space-md rounded-xl bg-secondary-container/20 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-on-secondary-container font-medium">Discrepancy</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+</div>
+<div class="font-metric-display text-metric-display text-secondary tracking-tight">-0.3 °C</div>
+<span class="font-caption text-caption text-on-secondary-container font-semibold">-0.76% Relative Error (Tight Fit)</span>
+</div>
+</div>
+<!-- Visual Range & Confidence Bar -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="text-on-surface font-semibold">Prediction Calibration Interval (95% CI)</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Range [38.6 °C — 39.6 °C]</span>
+</div>
+<!-- Inline Metric Gauge -->
+<div class="relative w-full h-8 bg-surface-container rounded-lg overflow-hidden flex items-center px-4">
+<!-- Acceptable CI Band -->
+<div class="absolute left-[30%] right-[20%] top-1 bottom-1 bg-primary/10 rounded"></div>
+<!-- Scale ruler ticks -->
+<div class="w-full flex justify-between text-on-surface-variant text-[10px] font-label-code z-0 px-2 opacity-60">
+<span>37.0°C</span>
+<span>38.0°C</span>
+<span>39.0°C</span>
+<span>40.0°C</span>
+<span>41.0°C</span>
+</div>
+<!-- OpenFOAM Reference Line -->
+<div class="absolute left-[60%] top-0 bottom-0 w-0.5 bg-on-surface z-10" title="Reference: 39.4°C">
+<span class="absolute -top-1 -left-2 text-[9px] font-label-code font-bold bg-on-surface text-inverse-on-surface px-1 rounded">Ref 39.4</span>
+</div>
+<!-- MLP Prediction Marker -->
+<div class="absolute left-[52.5%] top-1 bottom-1 w-2.5 rounded-full bg-primary z-20 shadow-sm" title="Surrogate: 39.1°C">
+<div class="w-1.5 h-1.5 bg-on-primary rounded-full m-auto mt-2"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-1">
+<span class="flex items-center gap-1">
+<span class="w-2.5 h-2.5 rounded bg-primary inline-block"></span>
+<span>Surrogate Estimate: 39.1 °C</span>
+</span>
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded bg-on-surface inline-block"></span>
+<span>OpenFOAM Solver: 39.4 °C</span>
+</span>
+<span class="text-secondary font-medium">Delta: 0.3 K</span>
+</div>
+</div>
+<!-- Educational Card: How to Interpret -->
+<div class="p-space-sm rounded-xl bg-surface-container flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">info</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-sm text-headline-sm text-on-surface">How should I interpret this?</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                The prediction is the model's estimate. A reference value allows us to compare that estimate with the available CFD simulation result. The difference helps us assess model error. <span class="font-medium text-on-surface">Note:</span> A surrogate model prediction is an approximation, not a physical guarantee.
+              </p>
+</div>
+</div>
+</div>
+<!-- 4. SHAP Explanation Section -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">bar_chart</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">SHAP — Which inputs influenced the prediction?</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                SHAP assigns contribution values to input features relative to a defined baseline. It helps us inspect how the model arrived at a particular output.
+              </p>
+</div>
+<!-- Segmented Interactive Switch -->
+<div class="p-1 rounded-xl bg-surface-container-low flex items-center gap-1" id="shap-tabs">
+<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest text-primary font-label-code text-label-code font-bold shadow-sm" onclick="switchShapView('overall')" type="button">
+                Overall Importance
+              </button>
+<button class="px-space-sm py-1 rounded-lg text-on-surface-variant hover:text-on-surface font-label-code text-label-code" onclick="switchShapView('prediction')" type="button">
+                This Prediction (Selected)
+              </button>
+</div>
+</div>
+<!-- View 1: Overall Feature Importance Chart -->
+<div class="flex flex-col gap-space-md" id="shap-overall-view">
+<div class="flex flex-col gap-space-sm">
+<!-- Item 1: Coolant Flow Velocity -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="font-semibold text-on-surface">Coolant Velocity (U_in)</span>
+<span class="font-label-code text-label-code text-primary font-bold">+1.84 °C impact</span>
+</div>
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 82%;"></div>
+</div>
+</div>
+<!-- Item 2: Cell Heat Generation -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="font-semibold text-on-surface">Cell Heat Generation (Q_cell)</span>
+<span class="font-label-code text-label-code text-primary font-bold">+1.42 °C impact</span>
+</div>
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary/80 rounded-full transition-all duration-500" style="width: 63%;"></div>
+</div>
+</div>
+<!-- Item 3: Reynolds Number -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="font-semibold text-on-surface">Reynolds Number (Re)</span>
+<span class="font-label-code text-label-code text-primary font-bold">+0.95 °C impact</span>
+</div>
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary/60 rounded-full transition-all duration-500" style="width: 42%;"></div>
+</div>
+</div>
+<!-- Item 4: Inlet Coolant Temp -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-caption font-caption">
+<span class="font-semibold text-on-surface">Inlet Coolant Temp (T_in)</span>
+<span class="font-label-code text-label-code text-primary font-bold">+0.68 °C impact</span>
+</div>
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary/40 rounded-full transition-all duration-500" style="width: 30%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- View 2: Waterfall Attribution (Hidden by default, interactive) -->
+<div class="hidden flex-col gap-space-md" id="shap-prediction-view">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm font-label-code text-label-code">
+<div class="flex justify-between items-center pb-2 border-b border-surface-container">
+<span class="text-on-surface-variant">Baseline Expected Value E[f(x)]</span>
+<span class="font-bold text-on-surface">28.6 °C</span>
+</div>
+<div class="flex justify-between items-center text-error font-medium">
+<span>+ Q_cell (35.0 W high discharge)</span>
+<span>+6.2 °C (Hotspot Driver)</span>
+</div>
+<div class="flex justify-between items-center text-error font-medium">
+<span>+ Low Velocity / Laminar Re (0.18 m/s, Re=560)</span>
+<span>+4.8 °C (Poor Advection)</span>
+</div>
+<div class="flex justify-between items-center text-secondary font-medium">
+<span>- Inlet Temp T_in (20.0 °C Chilled)</span>
+<span>-0.5 °C (Cooling Offset)</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-surface-container font-headline-sm text-headline-sm text-primary">
+<span>Final Model Prediction f(x)</span>
+<span>39.1 °C</span>
+</div>
+</div>
+</div>
+<!-- Educational Info Card: How to read SHAP -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[18px] shrink-0 mt-0.5">school</span>
+<p class="font-caption text-caption text-on-surface-variant">
+<strong class="text-on-surface">How to read SHAP:</strong> Larger absolute contributions indicate a greater influence on the model output under the Shapley valuation method. The sign indicates the direction relative to the baseline training distribution mean.
+            </p>
+</div>
+</div>
+<!-- 5. LIME Explanation Section -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[22px]">grain</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">LIME — Why this particular prediction?</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                LIME builds a simpler local linear surrogate around this specific state vector to describe local sensitivity within the perturbation radius.
+              </p>
+</div>
+<div class="px-space-sm py-1 rounded-xl bg-surface-container font-label-code text-label-code text-on-surface flex items-center gap-1">
+<span class="text-on-surface-variant">Local Fit:</span>
+<span class="font-bold text-secondary">R² = 0.91</span>
+</div>
+</div>
+<!-- Local Feature Weights Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between gap-space-xs">
+<div class="flex flex-col gap-1">
+<span class="font-label-code text-label-code text-on-surface-variant">FEATURE RULE</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">U_in ≤ 0.20 m/s</span>
+</div>
+<div class="flex items-baseline justify-between pt-2">
+<span class="font-caption text-caption text-on-surface-variant">Local Weight</span>
+<span class="font-label-code text-label-code font-bold text-primary">+0.48 (Elevates)</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 80%;"></div>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between gap-space-xs">
+<div class="flex flex-col gap-1">
+<span class="font-label-code text-label-code text-on-surface-variant">FEATURE RULE</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Q_cell &gt; 30.0 W</span>
+</div>
+<div class="flex items-baseline justify-between pt-2">
+<span class="font-caption text-caption text-on-surface-variant">Local Weight</span>
+<span class="font-label-code text-label-code font-bold text-primary">+0.39 (Elevates)</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary/80 h-full rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between gap-space-xs">
+<div class="flex flex-col gap-1">
+<span class="font-label-code text-label-code text-on-surface-variant">FEATURE RULE</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">T_in ≤ 22.0 °C</span>
+</div>
+<div class="flex items-baseline justify-between pt-2">
+<span class="font-caption text-caption text-on-surface-variant">Local Weight</span>
+<span class="font-label-code text-label-code font-bold text-secondary">-0.15 (Attenuates)</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 35%;"></div>
+</div>
+</div>
+</div>
+<!-- LIME Guidance Card -->
+<div class="p-space-sm rounded-xl bg-surface-container flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">help</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<strong class="text-on-surface">When should I use this?</strong> Use LIME to inspect one individual prediction in local detail. Compare it with SHAP to verify consistency. SHAP and LIME utilize different mathematical frameworks, so slight variation in feature rankings is normal and expected.
+            </p>
+</div>
+</div>
+<!-- 6. GPT-OSS Plain English Interpretation Panel -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">chat_bubble_outline</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">GPT-OSS Explanation in Plain English</h3>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">
+                GPT-OSS status has not been verified in this static view.
+</span>
+</div>
+<!-- Controls -->
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-code text-label-code transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">wifi</span>
+<span>Test GPT-OSS</span>
+</button>
+<button class="px-space-sm py-1.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-code text-label-code transition-colors flex items-center gap-1 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+<span>Explain Prediction</span>
+</button>
+</div>
+</div>
+<!-- Disciplinary Callout -->
+<div class="p-space-sm rounded-xl bg-surface-container-low text-caption font-caption text-on-surface-variant flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+<span>
+<strong>Scientific Guardrail:</strong> GPT-OSS ingests the quantitative prediction and evaluated SHAP/LIME outputs to construct clear prose explanations. It does not replace the numerical surrogate or alter raw boundary calculations.
+            </span>
+</div>
+<!-- 3-Section Structured Explanation Card -->
+<div class="grid grid-cols-1 gap-space-sm">
+<!-- Part 1: Plain Summary -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code text-label-code font-bold text-primary">1. PLAIN SUMMARY</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+                The model predicted a peak cell temperature of <span class="font-semibold text-primary">39.1 °C</span> (within 0.3 °C of the CFD reference baseline), primarily driven by the low coolant velocity through the narrow 2mm cooling channels.
+              </p>
+</div>
+<!-- Part 2: Why the Inputs Mattered -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code text-label-code font-bold text-secondary">2. WHY THE INPUTS MATTERED</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+                Both SHAP (<span class="font-label-code text-label-code font-semibold text-primary">+4.8 °C</span>) and LIME (weight <span class="font-label-code text-label-code font-semibold text-secondary">+0.48</span>) agree that operating at Re=560 with an inlet velocity of 0.18 m/s develops a thick thermal boundary layer. As a result, the coolant cannot convectively remove the 35.0 W/cell heat flux rapidly enough before reaching the downstream downstream Cells (#7–#8).
+              </p>
+</div>
+<!-- Part 3: Model Reliability & Caveats -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code text-label-code font-bold text-tertiary">3. RELIABILITY &amp; PHYSICAL CAVEATS</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+                The local surrogate fit (<span class="font-semibold font-label-code text-label-code">R² = 0.91</span>) indicates strong localized reliability for this laminar regime. However, this prediction must not be extrapolated into transitional or turbulent flow (Re &gt; 2100) without retraining on fine-mesh k-omega SST solvers.
+              </p>
+</div>
+</div>
+</div>
+<!-- 7. Validation and Limitations Accordion -->
+<details class="group bg-surface-container-lowest p-space-lg rounded-xl shadow-sm list-none">
+<summary class="flex items-center justify-between cursor-pointer list-none">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">policy</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">How reliable is this result? Validation Metrics &amp; Model Limitations</h3>
+</div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180 text-[22px] text-on-surface-variant">expand_more</span>
+</summary>
+<div class="pt-space-md mt-space-md flex flex-col gap-space-md">
+<!-- Metrics Table / Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-0.5">
+<span class="font-caption text-caption text-on-surface-variant">Mean Absolute Error (MAE)</span>
+<span class="font-metric-display text-headline-lg text-on-surface">0.45 °C</span>
+<span class="font-caption text-caption text-on-surface-variant">48 holdout CFD points</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-0.5">
+<span class="font-caption text-caption text-on-surface-variant">Root Mean Squared Error (RMSE)</span>
+<span class="font-metric-display text-headline-lg text-on-surface">0.62 °C</span>
+<span class="font-caption text-caption text-on-surface-variant">Strict L2 penalty</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-0.5">
+<span class="font-caption text-caption text-on-surface-variant">Global Coefficient of Determination</span>
+<span class="font-metric-display text-headline-lg text-secondary">R² = 0.978</span>
+<span class="font-caption text-caption text-on-secondary-container">High surrogate fidelity</span>
+</div>
+</div>
+<!-- Crucial Limitation Warning Callout -->
+<div class="p-space-md rounded-xl bg-surface-container flex items-start gap-space-md">
+<span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5">report_problem</span>
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">Crucial Boundary Limitation</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                  An explanation tells us how the model behaves; it does not prove that the model is unconditionally accurate. Always inspect cross-validation results alongside physical checks. This surrogate was trained exclusively on steady-state 10-cell pack simulations using a 50:50 water-glycol coolant fluid model.
+                </p>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function switchShapView(view) {
+    const overallView = document.getElementById('shap-overall-view');
+    const predictionView = document.getElementById('shap-prediction-view');
+    const tabs = document.getElementById('shap-tabs').querySelectorAll('button');
+    
+    if (view === 'overall') {
+      overallView.classList.remove('hidden');
+      overallView.classList.add('flex');
+      predictionView.classList.add('hidden');
+      predictionView.classList.remove('flex');
+      
+      tabs[0].className = 'px-space-sm py-1 rounded-lg bg-surface-container-lowest text-primary font-label-code text-label-code font-bold shadow-sm';
+      tabs[1].className = 'px-space-sm py-1 rounded-lg text-on-surface-variant hover:text-on-surface font-label-code text-label-code';
+    } else {
+      overallView.classList.add('hidden');
+      overallView.classList.remove('flex');
+      predictionView.classList.remove('hidden');
+      predictionView.classList.add('flex');
+      
+      tabs[0].className = 'px-space-sm py-1 rounded-lg text-on-surface-variant hover:text-on-surface font-label-code text-label-code';
+      tabs[1].className = 'px-space-sm py-1 rounded-lg bg-surface-container-lowest text-primary font-label-code text-label-code font-bold shadow-sm';
+    }
+  }
+</script><script type="module" src="/src/explainable-main.tsx"></script><script type="module" src="/src/stitch-navigation.ts"></script></main></div></body></html>
