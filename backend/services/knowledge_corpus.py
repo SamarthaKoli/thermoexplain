@@ -268,6 +268,22 @@ class KnowledgeCorpus:
         self._fit(snapshot)
         self._load_error = None
 
+    def _source_document_count(self) -> int:
+        if not self.documents_path.is_dir():
+            return 0
+        try:
+            return sum(
+                1
+                for path in self.documents_path.rglob("*")
+                if path.is_file()
+                and not path.is_symlink()
+                and path.suffix.casefold() in SUPPORTED_SUFFIXES
+            )
+        except OSError as error:
+            raise KnowledgeError(
+                "The configured knowledge-document directory could not be read.", 503
+            ) from error
+
     def build_index(self) -> dict[str, Any]:
         if not self.documents_path.exists():
             self.documents_path.mkdir(parents=True, exist_ok=True)
@@ -372,6 +388,7 @@ class KnowledgeCorpus:
         return self.status()
 
     def status(self) -> dict[str, Any]:
+        source_document_count = self._source_document_count()
         if self._snapshot is None:
             return {
                 "indexing_status": "error" if self._load_error else "not_indexed",
@@ -379,6 +396,7 @@ class KnowledgeCorpus:
                 "indexed_at": None,
                 "document_count": 0,
                 "passage_count": 0,
+                "source_document_count": source_document_count,
                 "documents": [],
                 "warnings": [self._load_error] if self._load_error else [],
             }
@@ -390,8 +408,44 @@ class KnowledgeCorpus:
             "indexed_at": snapshot["indexed_at"],
             "document_count": len(snapshot["documents"]),
             "passage_count": count,
+            "source_document_count": source_document_count,
             "documents": snapshot["documents"],
             "warnings": snapshot.get("warnings", []),
+        }
+
+    def retrieval_status(self) -> dict[str, str]:
+        if self._load_error:
+            return {
+                "status": "unavailable",
+                "diagnostic": "The saved knowledge index is invalid. Rebuild the index from supported source documents.",
+            }
+        if self._snapshot is None:
+            if self._source_document_count() == 0:
+                return {
+                    "status": "unavailable",
+                    "diagnostic": (
+                        "No PDF, TXT, or Markdown source documents were found. Add genuine "
+                        "sources under data/knowledge (or THERMOEXPLAIN_KNOWLEDGE_PATH), "
+                        "then build the index."
+                    ),
+                }
+            return {
+                "status": "unavailable",
+                "diagnostic": "Source documents are present, but no knowledge index has been built yet.",
+            }
+        if not self._snapshot["passages"]:
+            return {
+                "status": "unavailable",
+                "diagnostic": "The knowledge index contains no searchable passages.",
+            }
+        if self._vectorizer is None or self._matrix is None:
+            return {
+                "status": "unavailable",
+                "diagnostic": "The indexed documents produced no searchable text.",
+            }
+        return {
+            "status": "available",
+            "diagnostic": "The TF-IDF index is loaded and can retrieve passages.",
         }
 
     def retrieve(self, query: str, top_k: int = 5) -> dict[str, Any]:

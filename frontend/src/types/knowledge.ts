@@ -29,10 +29,13 @@ export interface KnowledgeStatus {
     indexed_at: string | null;
     document_count: number;
     passage_count: number;
+    source_document_count: number;
     documents: KnowledgeDocument[];
     warnings: string[];
   };
   retrieval: {
+    status: "available" | "unavailable";
+    diagnostic: string;
     method: string;
     minimum_cosine_similarity: number;
     chunk_characters: number;

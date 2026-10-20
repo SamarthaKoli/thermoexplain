@@ -15,6 +15,10 @@ INTERNAL_NONUNIFORM = re.compile(
     r"\binternalField\s+nonuniform\s+List<([^>]+)>\s+(\d+)\s*\(",
     re.DOTALL,
 )
+INTERNAL_EMPTY_NONUNIFORM = re.compile(
+    r"\binternalField\s+nonuniform\s+0\s*\(\s*\)\s*;",
+    re.DOTALL,
+)
 INTERNAL_UNIFORM = re.compile(r"\binternalField\s+uniform\s+([^;]+);", re.DOTALL)
 PROCESSOR_DIRECTORY = re.compile(r"processor\d+$")
 SUPPORTED_CLASSES = {
@@ -246,6 +250,10 @@ def _field_values(path: Path, value_type: str) -> tuple[str, int, list[float]]:
         text = path.read_text(encoding="ascii")
     except (OSError, UnicodeError) as error:
         raise CfdDataError(f"Could not read OpenFOAM field file {path.name}: {error}", 422) from error
+    empty_nonuniform = INTERNAL_EMPTY_NONUNIFORM.search(text)
+    if empty_nonuniform:
+        return "nonuniform", 0, []
+
     nonuniform = INTERNAL_NONUNIFORM.search(text)
     if nonuniform:
         listed_type = nonuniform.group(1)

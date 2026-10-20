@@ -82,6 +82,12 @@ export interface GenerativeStatus {
   cases: GenerativeCase[];
   models: GenerativeModel[];
   torch_available: boolean;
+  torch_runtime: {
+    available: boolean;
+    version: string | null;
+    device: string | null;
+    diagnostic: string;
+  };
   training_device?: string;
   manifest_sha256?: string;
   status: string;

@@ -288,6 +288,7 @@ def test_gpt_oss_interpretation_receives_actual_prediction_and_shap_lime_results
 
     class FakeCompletion:
         choices = [FakeChoice()]
+        model = "openai/gpt-oss-120b"
 
     class FakeCompletions:
         def create(self, **kwargs):
@@ -400,6 +401,7 @@ def test_gpt_oss_connection_test_uses_live_completions_route_mocked_provider(
 
     class FakeCompletion:
         choices = [FakeChoice()]
+        model = "openai/gpt-oss-120b"
 
     class FakeCompletions:
         def create(self, **kwargs):
@@ -475,7 +477,7 @@ def test_gpt_oss_connection_test_rejects_empty_provider_responses(
         (401, 401, "Provider rejected the configured API key."),
         (403, 403, "Provider denied access to this model or API."),
         (404, 404, "Provider could not find the configured model ID."),
-        (429, 429, "Provider rate limit or quota was exceeded."),
+        (429, 429, "Provider rate limit was exceeded; wait before retrying."),
     ],
 )
 def test_gpt_oss_provider_error_status_is_safe_and_actionable(
@@ -500,6 +502,59 @@ def test_gpt_oss_provider_error_status_is_safe_and_actionable(
     assert payload["tested_at"]
     assert "Secret-bearing" not in str(payload)
     assert "server-only-groq-test-key" not in str(payload)
+
+
+@pytest.mark.parametrize(
+    ("status_code", "body", "expected_status", "expected_diagnostic"),
+    [
+        (
+            429,
+            {"error": {"type": "insufficient_quota", "message": "private details"}},
+            402,
+            "Provider quota or billing limit was reached.",
+        ),
+        (
+            402,
+            {"error": {"type": "billing_error", "message": "private details"}},
+            402,
+            "Provider quota or billing limit was reached.",
+        ),
+        (
+            429,
+            {"error": {"type": "rate_limit_error", "message": "private details"}},
+            429,
+            "Provider rate limit was exceeded; wait before retrying.",
+        ),
+        (
+            413,
+            {"error": {"type": "invalid_request_error"}},
+            413,
+            "Provider rejected the request because its payload was too large.",
+        ),
+        (
+            422,
+            {"error": {"type": "unprocessable_entity"}},
+            400,
+            "Provider could not process the request; check its inputs and format.",
+        ),
+    ],
+)
+def test_gpt_oss_provider_error_categories_are_specific_and_sanitized(
+    status_code, body, expected_status, expected_diagnostic
+):
+    request = httpx.Request("POST", "https://api.groq.com/openai/v1/chat/completions")
+    response = httpx.Response(status_code, request=request)
+    provider_error = APIStatusError(
+        "provider private details", response=response, body=body
+    )
+
+    error = gpt_oss_service._gpt_oss_error(
+        Settings(cors_origins=("http://localhost:5173",)), provider_error
+    )
+
+    assert error.status_code == expected_status
+    assert error.diagnostic == expected_diagnostic
+    assert "private details" not in error.diagnostic
 
 
 def test_gpt_oss_rejects_unsupported_model_ids():

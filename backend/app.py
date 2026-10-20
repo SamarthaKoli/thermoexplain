@@ -11,6 +11,7 @@ from backend.routes.llm import create_llm_blueprint
 from backend.routes.health import health_blueprint
 from backend.routes.knowledge import create_knowledge_blueprint
 from backend.routes.ml import create_ml_blueprint
+from backend.routes.validation import create_validation_blueprint
 
 
 def create_app(settings: Settings | None = None) -> Flask:
@@ -41,6 +42,9 @@ def create_app(settings: Settings | None = None) -> Flask:
     )
     app.register_blueprint(
         create_generative_blueprint(app_settings), url_prefix="/api/generative"
+    )
+    app.register_blueprint(
+        create_validation_blueprint(app_settings), url_prefix="/api/validation"
     )
 
     @app.errorhandler(404)

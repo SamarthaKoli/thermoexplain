@@ -15,3 +15,11 @@ export interface GptOssStatus {
   checked_at?: string;
   diagnostic: string;
 }
+
+export interface FeatureInterpretation {
+  label: string;
+  provider: string;
+  model: string;
+  interpretation: string;
+  generated_at: string;
+}

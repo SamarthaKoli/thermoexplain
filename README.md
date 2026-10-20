@@ -28,12 +28,12 @@ frontend/
     design-dashboard.ts    Live data integration and boundary-surface renderer
     tests/                 Vitest setup and frontend tests
     types/                 API and domain contracts
-  design.html              Live Stitch CFD Explorer
-  overview.html            Live Stitch dashboard
-  explainable.html         Presentation/demo screen
-  generative.html          Presentation/demo screen
-  thermal.html             Presentation/demo screen
-  validation.html          Presentation/demo screen
+  overview.html            Landing dashboard
+  design.html              CFD Explorer and GPT-OSS case analysis
+  explainable.html         Connected surrogate, SHAP/LIME and GPT-OSS lab
+  generative.html          Connected VAE/GAN lab with GPT-OSS interpretation
+  thermal.html             Connected retrieval-grounded knowledge assistant
+  validation.html          Connected evidence dashboard with GPT-OSS summary
 data/
   manifest.json            Generated dataset inventory (not source CFD data)
   raw/                     Optional raw data location; ignored by Git
@@ -92,31 +92,28 @@ simulate new cases, establish physical causality, or validate a safe cooling des
 
 ## Key features and frontend pages
 
-The six Google Stitch-exported pages are the primary frontend. Opening `/` redirects
-to `/overview.html`; the sidebar links navigate among `/overview.html`,
+The six Google Stitch-exported pages are the primary frontend. Vite development
+and preview servers redirect `/` to `/overview.html`; a production static host
+must rewrite `/` to `/overview.html`. The sidebar links navigate among `/overview.html`,
 `/design.html`, `/explainable.html`, `/generative.html`, `/thermal.html`, and
 `/validation.html`. The source HTML, embedded Tailwind configuration, Google Fonts,
 and Material Symbols are in `frontend/`; the shared page-link mapping is
 `frontend/src/stitch-navigation.ts`.
 
-The original React application is still available at `/app.html`. It contains the
-backend-connected CFD, prediction/XAI, generative, knowledge-assistant, and
-evaluation workflows implemented in `frontend/src/pages/` and
-`frontend/src/services/`. The Stitch overview and CFD page also have project
-integration scripts (`frontend/src/overview-dashboard.ts` and
-`frontend/src/design-dashboard.ts`) that load real API status/data. The other four
-Stitch exports remain presentation/demo screens and are not substitutes for the
-connected workflows in `/app.html`; their sample values and demo controls must not
-be interpreted as live results.
+The overview and design pages have project integration scripts
+(`frontend/src/overview-dashboard.ts` and `frontend/src/design-dashboard.ts`).
+The explainable, generative, thermal, and validation pages mount their
+API-connected React workflows directly into the existing page shells. Numeric
+results come from backend computations; GPT-OSS only interprets supplied evidence.
 
 | Page | Stitch source | Existing React workflow | Current integration status |
 |---|---|---|---|
-| Overview | `frontend/overview.html` | `frontend/src/pages/App.tsx` | The Stitch page loads live backend health, dataset, model, and provider status. |
-| CFD Explorer & Design Analysis | `frontend/design.html` | `frontend/src/pages/CfdExplorer.tsx` | The Stitch page loads actual dataset/case/field statistics and requests GPT-OSS interpretations. |
-| Explainable AI Lab | `frontend/explainable.html` | `frontend/src/pages/ExplainableAiLab.tsx` | Live surrogate prediction and SHAP/LIME workflows are available in `/app.html`; Stitch export remains a presentation screen. |
-| Generative AI Lab | `frontend/generative.html` | `frontend/src/pages/GenerativeAiLab.tsx` | Live VAE/GAN workflows are available in `/app.html`; Stitch controls are demonstrations. |
-| Evaluation & Validation | `frontend/validation.html` | `frontend/src/pages/EvaluationValidation.tsx` | Live model/provider readiness and recorded metrics are available in `/app.html`; Stitch export is static. |
-| Thermal Knowledge Assistant | `frontend/thermal.html` | `frontend/src/pages/ThermalKnowledgeAssistant.tsx` | Live retrieval, upload, and evidence-constrained answers are available in `/app.html`; Stitch export is static. |
+| Overview | `frontend/overview.html` | `frontend/src/overview-dashboard.ts` | The page loads live backend health, dataset, model, and provider status. |
+| CFD Explorer & Design Analysis | `frontend/design.html` | `frontend/src/design-dashboard.ts` | The page loads actual dataset/case/field statistics and requests GPT-OSS interpretations. |
+| Explainable AI Lab | `frontend/explainable.html` | `frontend/src/pages/ExplainableAiLab.tsx` | Standalone page runs real predictions, SHAP/LIME and backend GPT-OSS interpretation. |
+| Generative AI Lab | `frontend/generative.html` | `frontend/src/pages/GenerativeAiLab.tsx` | Standalone page runs VAE/GAN experiments and explains returned evidence through GPT-OSS. |
+| Evaluation & Validation | `frontend/validation.html` | `frontend/src/pages/EvaluationValidation.tsx` | Standalone page reports available metrics/statuses and can request an AI summary of that evidence. |
+| Thermal Knowledge Assistant | `frontend/thermal.html` | `frontend/src/pages/ThermalKnowledgeAssistant.tsx` | Standalone page runs retrieval, upload, and citation-constrained answers. |
 
 | Module | User workflow and actual output |
 |---|---|
@@ -137,8 +134,8 @@ report, knowledge index, and locally trained model artifacts are stored as files
 
 ## Technology stack
 
-- **UI:** React 18 and TypeScript 5.7 for the connected workspace; Vite 5
-  builds and serves the React and multi-page HTML screens. Stitch-exported pages
+- **UI:** React 18 and TypeScript 5.7 for connected feature pages; Vite 5
+  builds and serves the multi-page HTML application. Stitch-exported pages
   load Tailwind CSS from its CDN, Google Fonts, and Material Symbols.
 - **API:** Python 3.10+ and Flask 3 with Flask-CORS. There is no database,
   ORM, or migration framework.
@@ -240,9 +237,11 @@ npm ci
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173` for the Stitch overview and its six-page navigation.
-Open `http://127.0.0.1:5173/app.html` for the API-connected React workflows. The
-frontend calls `http://127.0.0.1:5000/api` by default. The included
+Open `http://127.0.0.1:5173` to be redirected to `overview.html`; the six page
+links open their connected workflows directly. Vite's development and preview
+servers provide this root redirect. Configure a production static host to rewrite
+`/` to `/overview.html`, because this project intentionally contains no
+`index.html`. The frontend calls `http://127.0.0.1:5000/api` by default. The included
 `frontend/.env.example` shows the non-secret API URL setting. To change the API
 URL, create `frontend/.env.local` with `VITE_API_BASE_URL=http://127.0.0.1:5000/api`;
 only non-secret settings belong in `VITE_` variables. Backend `CORS_ORIGINS`
@@ -257,8 +256,7 @@ performs an actual short generation request.
 
 ## How to use the application
 
-For the connected workflows, open `/app.html` and select a section in the
-sidebar:
+Use the overview page to navigate directly between the six workflows:
 
 1. **Overview:** check backend health, scanned cases, available fields, and
    model/provider readiness.
@@ -281,10 +279,11 @@ sidebar:
    caveats. A full-suite or CFD mesh-convergence pass is not claimed when the
    backend has no corresponding validation.
 
-The Stitch `/overview.html` and `/design.html` pages are separate screens with
-their own live integrations; `/design.html` is the spatial boundary viewer.
-The other Stitch exports are presentation/demo screens, not substitutes for
-the live React model, retrieval, and evaluation workflows.
+The design page computes statistics from the selected CFD case before requesting
+GPT-OSS analysis. Explainable AI preserves numeric predictions and computed
+SHAP/LIME values; GPT-OSS only interprets that evidence. Generative and validation
+explanations likewise use returned metrics and statuses only. The thermal
+assistant preserves retrieval and citation checks.
 
 ## Testing and validation
 
@@ -374,8 +373,8 @@ CFD page (`/design.html`) reads a selected field from OpenFOAM, extracts the
 selected region's boundary, and maps values onto its surface for coloring. This
 is a boundary-surface view, **not a volumetric rendering**. If that field cannot
 be mapped, the page may show the available VTK geometry without attaching
-invented values or a color scale. The React CFD page in `/app.html` currently
-reports spatial visualization as unavailable. Mesh-comparison controls do not
+invented values or a color scale. The design page reports boundary-surface spatial visualization when available.
+Mesh-comparison controls do not
 report cross-mesh values until spatial interpolation is validated; arrays are
 never compared by index. The Explainable AI Lab uses VTK's decomposed OpenFOAM
 reader for cell-center coordinates and scalar cell fields, verifies matching
@@ -397,8 +396,11 @@ New backend endpoints:
 | `GET /api/llm/status` | Check the configured GPT-OSS model through the configured API; reports Reachable, Unavailable, or Not Verified |
 | `POST /api/llm/connection-test` | Run a controlled GPT-OSS inference probe and report measured latency |
 | `POST /api/llm/analysis` | Compute selected-case statistics on the backend and request a cautious GPT-OSS interpretation |
+| `POST /api/llm/interpretation` | Explain bounded generative or validation evidence supplied by the API-connected page |
 
 Set `LLM_PROVIDER=gpt_oss`, `GPT_OSS_API_KEY`, and `GPT_OSS_MODEL=openai/gpt-oss-120b` in the project-root backend `.env`. The existing Groq SDK integration uses Groq's default API base URL unless `GPT_OSS_BASE_URL` is explicitly set; this workspace does not configure a local daemon or port `11434`. Existing `GROQ_API_KEY` and `GROQ_MODEL` variables remain accepted as backward-compatible aliases. No credentials are sent to the frontend. If GPT-OSS is unavailable, the page reports the error and does not show a substitute answer.
+
+GPT-OSS chat-completion requests use Groq's supported low reasoning effort and a bounded 2,048-token completion budget. If Groq reports that an answer ended at the token limit, the backend returns an explicit sanitized truncation error rather than displaying a partial interpretation or invalid knowledge answer.
 
 ### Thermal Knowledge Assistant: documents, retrieval, BERT, and GPT-OSS 120B
 
@@ -488,8 +490,11 @@ The GAN training history ended at generator loss 0.9227 and discriminator loss 1
 PyTorch is optional because its CPU wheel is comparatively large. In the backend virtual environment, after installing the main `requirements.txt`, install the CPU-only dependency:
 
 ```powershell
-python -m pip install -r requirements-generative.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-generative.txt
 ```
+
+Use that same `.venv` interpreter to start Flask; installing PyTorch into a
+different system Python does not make it available to the backend.
 
 The Generative AI Lab uses an explicit Train button (one selected case, CPU, default seed 42, at most 100 epochs). Training is only started when requested; installed PyTorch and a prepared, spatially split patch set are required. Model checkpoints, actual epoch histories, case/manifest provenance, and held-out metrics are stored under the Git-ignored `backend/saved_models/generative` directory. A changed dataset manifest makes saved models unavailable until retrained.
 
@@ -552,7 +557,14 @@ All endpoints use the `/api/dataset` prefix:
 | All LLM-backed pages | `GET /api/llm/status`; inference: `POST /api/llm/connection-test` | A shared GPT-OSS health check validates the configured model; the separate inference probe reports actual generation and latency. |
 | CFD Explorer | `POST /api/llm/analysis` | Interpret backend-computed statistics for the selected CFD case. |
 | Explainable AI Lab | `POST /api/ml/gpt-oss/interpretation` | Interpret an actual backend prediction and computed SHAP or LIME output; it does not generate those values. |
+| Generative AI Lab | `POST /api/llm/interpretation` (`feature: generative`) | Explain the selected VAE reconstruction or GAN output using its returned result and metrics. |
 | Thermal Knowledge Assistant | Retrieval: `POST /api/knowledge/retrieve`; answer: `POST /api/knowledge/answer` | Retrieve actual indexed passages before requesting a GPT-OSS answer. Citations must map to those passages. The separate local BERT classifier remains unavailable until a verified model and labeled test set are configured. |
+| Evaluation & Validation | `POST /api/llm/interpretation` (`feature: validation`) | Summarize supplied validation evidence without converting missing checks into passes. |
+
+The knowledge corpus is not bundled. Add authorized PDF, UTF-8 TXT, or Markdown
+sources under `data/knowledge` (or configure `THERMOEXPLAIN_KNOWLEDGE_PATH`),
+then build the index from the Thermal Knowledge Assistant. An empty source
+directory is reported as unavailable; Groq reachability does not change that.
 
 `GET /api/llm/status` performs a lightweight authenticated model-availability check. `POST /api/llm/connection-test` sends a small inference prompt and measures that request's latency. Failures do not fall back to another provider or a fabricated answer. Supported model IDs are `openai/gpt-oss-120b` and `openai/gpt-oss-20b`. Configure only `LLM_PROVIDER=gpt_oss`, `GPT_OSS_API_KEY`, `GPT_OSS_MODEL`, and optionally `GPT_OSS_BASE_URL` in backend-only environment settings; legacy `GROQ_API_KEY` and `GROQ_MODEL` aliases are still supported.
 
@@ -599,6 +611,7 @@ prefix; query parameters and request bodies are validated by their route handler
 | `GET` | `/api/knowledge/bert/status` | Report optional local classifier readiness |
 | `POST` | `/api/knowledge/bert/classify` | Classify text with the configured BERT model |
 | `POST` | `/api/knowledge/bert/evaluate` | Evaluate BERT on the configured held-out JSONL set |
+| `GET` | `/api/validation/status` | Aggregate existing validation evidence and explicit module statuses; does not run a full engineering validation suite |
 
 ## Troubleshooting
 
@@ -651,18 +664,14 @@ prefix; query parameters and request bodies are validated by their route handler
   **Save as PDF** there. It is not a server-side PDF export service.
 - The backend does not use a database, so there are no migrations or database
   connectivity steps to troubleshoot.
-- The Stitch `overview.html` and `design.html` pages have live project-specific
-  API integrations. The Stitch `explainable.html`, `generative.html`,
-  `thermal.html`, and `validation.html` files retain presentation/demo content;
-  use their React workflows in `/app.html` for live model, retrieval, and
-  evaluation data.
+- All six HTML pages are the project interface. The explainable, generative,
+  thermal, and validation pages mount their live React workflows; design uses
+  shared backend APIs for actual CFD statistics and GPT-OSS interpretation.
 
 ## Known limitations and future work
 
-- The React CFD Explorer in `/app.html` computes field statistics but does not
-  provide spatial visualization. The Stitch CFD Explorer in `/design.html`
-  renders selected fields on extracted region boundaries; it does not render
-  the interior volume.
+- The CFD Explorer in `/design.html` renders selected fields on extracted region
+  boundaries when supported; it does not render the interior volume.
 - Cross-mesh numerical comparison remains unavailable until spatial field
   mapping and a defensible convergence method are implemented and validated.
 - The surrogate has negative held-out R²; the VAE/GAN pilots use one case and weak
@@ -670,35 +679,48 @@ prefix; query parameters and request bodies are validated by their route handler
 - The knowledge corpus is empty in this workspace. BERT has no configured model
   or held-out test set. Live GPT-OSS verification is reported only after a
   successful runtime check.
-- Although pilot VAE/GAN checkpoint files may exist locally, the optional PyTorch
-  dependency is not part of the base install. Those workflows remain unavailable
-  until PyTorch is installed and the saved model is compatible with the current
-  data manifest.
+- PyTorch is optional in the base install. VAE/GAN workflows require it in the
+  backend environment and a saved model compatible with the current data manifest.
 - Broader independent-case, operating-condition, mesh, physical-constraint, and
   experimental validation is needed before any engineering application.
 
 ## Current project status
 
-The current source was regression-tested in this workspace: backend
-`pytest backend\tests` passed (103 passed, 2 skipped), the frontend production
-build passed, and the frontend unit suite passed (38 tests after the lazy audit
-report regression tests were added). A configured GPT-OSS inference smoke test
-also passed. These checks do not constitute engineering validation.
+Final workspace checks on 2026-10-20 used the documented `.venv` (Python 3.11.9)
+and frontend commands. `python -m pytest backend\tests` passed (121 tests,
+including the live GPT-OSS smoke test); `npm test` passed (42 tests);
+`npm run build` passed the TypeScript check and Vite production build; and
+`python -m compileall -q backend` passed. The backend suite reported three
+third-party SHAP deprecation warnings. The Vite development and production-preview
+servers both redirected `/` to `/overview.html` and served all six pages. These
+checks do not constitute engineering validation.
 
-Browser checks confirmed the overview and React workspace load, the scanned
-dataset is available, and the live Stitch CFD page maps the selected OpenFOAM
-field to a boundary surface. The React CFD page reports its visualization as
-unavailable; the separate Stitch page is the current spatial viewer. GPT-OSS
-inference is available when configured. The local knowledge corpus is empty,
-BERT is not configured, and PyTorch was unavailable during this check, so those
-optional workflows could not be exercised with real artifacts. No aggregate
-validation-suite API, CFD solver run, or server-side PDF exporter is implemented.
-Responsive browser checks at 1440, 768, and 390 px found no horizontal page
-overflow. Mesh-comparison readiness was also checked for different resolutions;
-it correctly refused to report results without validated spatial interpolation.
-The large audit report was successfully loaded on demand. This workspace has no
-Git metadata, so a Git status/diff check and verification against a clean
-checkout were not possible.
+The configured Groq-backed GPT-OSS `openai/gpt-oss-120b` inference probe
+succeeded and returned the configured model. Actual GPT-OSS requests also
+succeeded through the CFD design, explainability, generative, and validation
+page endpoints; the Thermal Assistant's provider test succeeded. The design
+analysis check exposed support for valid empty OpenFOAM `nonuniform 0()`
+processor partitions, which is now covered by a regression test. CPU PyTorch
+2.14.1 imported in the backend virtual environment; real saved VAE reconstruction
+and GAN generation checkpoints each completed inference on held-out patches from
+the scanned six-case CFD dataset. These outputs remain exploratory and do not
+establish physical validity. The validation API is available and reports three
+modules as partial, one as not evaluated, and one as unavailable; the full
+engineering suite remains not evaluated. In particular, mesh independence,
+independent-case validation, physical constraints, and citation-grounding
+quality have not been established. Loading the local surrogate during the live
+explainability check produced scikit-learn version-mismatch warnings (artifact
+created with 1.7.2, runtime 1.9.1), although prediction, SHAP, and interpretation
+completed. Revalidate or retrain that local model with the intended runtime
+before relying on it.
+
+The local knowledge directory contains no source documents and no index. The
+assistant correctly reports retrieval as unavailable, so no live passage
+retrieval or citation-grounded answer can be claimed. Unit tests exercise
+indexing, retrieval, empty-corpus behavior, persistence, and citation checks
+using controlled fixtures; real-source retrieval still requires authorized
+documents. BERT also remains unconfigured. This workspace has Git metadata and
+local changes; review the Git status and staged diff before publication.
 
 For each new checkout, install the dependencies above, point
 `THERMOEXPLAIN_DATASET_PATH` at the desired dataset if it is not under

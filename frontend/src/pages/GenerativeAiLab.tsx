@@ -2,12 +2,20 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { ConceptHint } from "../components/ConceptHint";
 import {
+  getGptOssStatus,
+  interpretFeatureEvidence,
+} from "../services/providerApi";
+import {
   generatePatch,
   getGenerativeSamples,
   getGenerativeStatus,
   reconstructPatch,
   trainGenerativeModel,
 } from "../services/generativeApi";
+import type {
+  FeatureInterpretation,
+  GptOssStatus,
+} from "../types/provider";
 import type {
   GenerativeModel,
   GenerativeModelType,
@@ -409,6 +417,12 @@ interface CompactGenerativeViewProps {
   setSeed: (value: string) => void;
   setEpochs: (value: string) => void;
   runAction: () => Promise<void>;
+  interpretResult: () => Promise<void>;
+  gptOssStatus: GptOssStatus | null;
+  gptOssStatusError: string | null;
+  gptOssInterpretation: FeatureInterpretation | null;
+  gptOssInterpretationError: string | null;
+  isInterpreting: boolean;
   train: () => Promise<void>;
 }
 
@@ -438,9 +452,18 @@ function CompactGenerativeView({
   setSeed,
   setEpochs,
   runAction,
+  interpretResult,
+  gptOssStatus,
+  gptOssStatusError,
+  gptOssInterpretation,
+  gptOssInterpretationError,
+  isInterpreting,
   train,
 }: CompactGenerativeViewProps) {
   const availableCount = status?.models.filter((item) => item.available).length ?? 0;
+  const unavailableModel = status?.models.find(
+    (item) => item.model_type === modelType && !item.available && item.unavailable_reason,
+  );
   const statusText = statusLoading
     ? "Checking model status…"
     : statusError
@@ -468,7 +491,7 @@ function CompactGenerativeView({
       <Disclosure id="gen-about" title="About this lab">
         <p className="muted">Experiments use real, held-out coolant temperature patches from the scanned CFD data. VAE outputs are reconstructions; GAN outputs are synthetic and are not CFD simulations. A model’s statistical similarity or basic temperature checks do not establish physical validity or engineering reliability.</p>
         <p className="muted">The backend supports a GAN noise seed, but no truncation control. The generation API returns a synthetic field and aggregate comparisons, not the reference field values or a histogram.</p>
-        {status && <p className="muted">Dataset: {status.dataset_status} · PyTorch: {status.torch_available ? "available" : "not installed"} · Saved models: {availableCount} · Training device: {status.training_device ?? "not reported"}</p>}
+        {status && <p className="muted">Dataset: {status.dataset_status} · PyTorch: {status.torch_available ? `${status.torch_runtime.version} (${status.torch_runtime.device})` : "unavailable"} · Saved models: {availableCount} · Training device: {status.training_device ?? "not reported"}</p>}
         {statusError && <p className="message message--error" role="alert">{statusError}</p>}
       </Disclosure>
 
@@ -526,8 +549,14 @@ function CompactGenerativeView({
           </button>
         </div>
         {error && <p className="message message--error" role="alert">{error}</p>}
-        {status?.torch_available === false && <p className="message message--warning" role="status">The backend reports PyTorch is not installed. Training and inference may fail; no output is substituted.</p>}
-        {!models.length && status?.torch_available && <p className="muted">No saved {modelType.toUpperCase()} model is available for this case yet. Training runs only when requested.</p>}
+        {status?.torch_available === false && <p className="message message--warning" role="status">{status.torch_runtime.diagnostic} No output is substituted.</p>}
+        {!models.length && status?.torch_available && (
+          <p className="muted">
+            {unavailableModel?.unavailable_reason
+              ?? status.empty_reason
+              ?? `No saved ${modelType.toUpperCase()} model is available for this case yet. Training runs only when requested.`}
+          </p>
+        )}
 
         <Disclosure id="gen-advanced-controls" title={modelType === "vae" ? "Advanced reconstruction details" : "Advanced sampling details"}>
           <div className="gen-training-fields">
@@ -556,6 +585,36 @@ function CompactGenerativeView({
 
       {actionState === "working" && <p className="muted" role="status">Running the selected operation on the saved model and held-out data…</p>}
       {result && <CompactResults modelType={modelType} result={result} model={selectedModel} />}
+      <section className="panel gen-gpt-oss" aria-labelledby="gen-gpt-oss-title">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">{gptOssStatus?.provider ?? "GPT-OSS"} · RESULT EXPLANATION</p>
+            <h2 id="gen-gpt-oss-title">Explain this experiment</h2>
+          </div>
+          <span className={`status-pill${gptOssStatus?.status === "reachable" ? " status-pill--connected" : " status-pill--unavailable"}`}>
+            {gptOssStatusError ? "Unavailable" : gptOssStatus?.status === "reachable" ? "Reachable" : gptOssStatus?.status === "unavailable" ? "Unavailable" : gptOssStatus ? "Not Verified" : "Checking…"}
+          </span>
+        </div>
+        <p className="muted">GPT-OSS explains only the returned model result and metrics. Its text does not create predictions or establish physical validity.</p>
+        <button
+          className="secondary-button"
+          disabled={!result || gptOssStatus?.status !== "reachable" || isInterpreting}
+          onClick={() => void interpretResult()}
+          type="button"
+        >
+          {isInterpreting ? "Requesting explanation…" : "Explain current result"}
+        </button>
+        {!result && <p className="muted">Run an experiment to enable evidence-based interpretation.</p>}
+        {gptOssStatusError && <p className="message message--error" role="alert">{gptOssStatusError}</p>}
+        {gptOssInterpretationError && <p className="message message--error" role="alert">{gptOssInterpretationError}</p>}
+        {gptOssStatus?.diagnostic && gptOssStatus.status !== "reachable" && <p className="muted">{gptOssStatus.diagnostic}</p>}
+        {gptOssInterpretation && (
+          <div className="ai-interpretation" aria-live="polite">
+            <p>{gptOssInterpretation.interpretation}</p>
+            <small>{gptOssInterpretation.provider} · {gptOssInterpretation.model} · {new Date(gptOssInterpretation.generated_at).toLocaleString()}</small>
+          </div>
+        )}
+      </section>
       {!result && selectedModel && (
         <section className="panel gen-empty-results">
           <h2>{modelType === "vae" ? "Reconstruction results" : "Generated sample"}</h2>
@@ -610,6 +669,11 @@ export function GenerativeAiLab() {
   const [actionState, setActionState] = useState<AsyncState>("idle");
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<PatchResult | null>(null);
+  const [gptOssStatus, setGptOssStatus] = useState<GptOssStatus | null>(null);
+  const [gptOssStatusError, setGptOssStatusError] = useState<string | null>(null);
+  const [gptOssInterpretation, setGptOssInterpretation] = useState<FeatureInterpretation | null>(null);
+  const [gptOssInterpretationError, setGptOssInterpretationError] = useState<string | null>(null);
+  const [isInterpreting, setIsInterpreting] = useState(false);
 
   const models = useMemo(
     () =>
@@ -634,6 +698,12 @@ export function GenerativeAiLab() {
       })
       .catch((requestError: Error) => setStatusError(requestError.message))
       .finally(() => setStatusLoading(false));
+  }, []);
+
+  useEffect(() => {
+    getGptOssStatus()
+      .then(setGptOssStatus)
+      .catch((requestError: Error) => setGptOssStatusError(requestError.message));
   }, []);
 
   useEffect(() => {
@@ -721,6 +791,8 @@ export function GenerativeAiLab() {
     setActionState("working");
     setError(null);
     setResult(null);
+    setGptOssInterpretation(null);
+    setGptOssInterpretationError(null);
     try {
       const response =
         modelType === "vae"
@@ -735,6 +807,31 @@ export function GenerativeAiLab() {
       setError(requestError instanceof Error ? requestError.message : "The experiment action failed.");
     } finally {
       setActionState("idle");
+    }
+  }
+
+  async function interpretResult() {
+    if (!result || !selectedModel) return;
+    setIsInterpreting(true);
+    setGptOssInterpretation(null);
+    setGptOssInterpretationError(null);
+    try {
+      const interpretation = await interpretFeatureEvidence("generative", {
+        model_type: modelType,
+        model_id: selectedModel.model_id,
+        result_label: result.label,
+        status: result.status,
+        source: result.sample,
+        target: result.target,
+        metrics: result.metrics,
+        generation_seed: result.generation_seed ?? null,
+        limitations: result.limitations ?? selectedModel.limitations,
+      });
+      setGptOssInterpretation(interpretation);
+    } catch (requestError) {
+      setGptOssInterpretationError(requestError instanceof Error ? requestError.message : "GPT-OSS interpretation failed.");
+    } finally {
+      setIsInterpreting(false);
     }
   }
 
@@ -760,13 +857,19 @@ export function GenerativeAiLab() {
       statusLoading={statusLoading}
       trainingState={trainingState}
       busy={busy}
-      setCaseId={setCaseId}
-      setModelId={(value) => { setModelId(value); setResult(null); }}
-      setModelType={(value) => { setModelType(value); setResult(null); setError(null); }}
-      setSampleId={(value) => { setSampleId(value); setResult(null); }}
+      setCaseId={(value) => { setCaseId(value); setGptOssInterpretation(null); setGptOssInterpretationError(null); }}
+      setModelId={(value) => { setModelId(value); setResult(null); setGptOssInterpretation(null); setGptOssInterpretationError(null); }}
+      setModelType={(value) => { setModelType(value); setResult(null); setGptOssInterpretation(null); setGptOssInterpretationError(null); setError(null); }}
+      setSampleId={(value) => { setSampleId(value); setResult(null); setGptOssInterpretation(null); setGptOssInterpretationError(null); }}
       setSeed={setSeed}
       setEpochs={setEpochs}
       runAction={runAction}
+      interpretResult={interpretResult}
+      gptOssStatus={gptOssStatus}
+      gptOssStatusError={gptOssStatusError}
+      gptOssInterpretation={gptOssInterpretation}
+      gptOssInterpretationError={gptOssInterpretationError}
+      isInterpreting={isInterpreting}
       train={train}
     />
   ) : (
@@ -792,7 +895,7 @@ export function GenerativeAiLab() {
           </div>
           <div>
             <span className="eyebrow">PYTORCH RUNTIME</span>
-            <strong>{status.torch_available ? "Available" : "Not installed"}</strong>
+            <strong>{status.torch_available ? `${status.torch_runtime.version} · ${status.torch_runtime.device}` : "Unavailable"}</strong>
           </div>
           <div>
             <span className="eyebrow">SAVED MODELS</span>
@@ -898,9 +1001,7 @@ export function GenerativeAiLab() {
         </details>
         {!status?.torch_available && (
           <p className="message message--warning" role="status">
-            Training and inference are unavailable because PyTorch is not installed. After installing the base
-            requirements, run <code>python -m pip install -r requirements-generative.txt</code> in the backend
-            environment. No model or training metrics are being substituted.
+            {status?.torch_runtime.diagnostic ?? "The backend PyTorch runtime is unavailable."} In the same environment used to start Flask, run <code>python -m pip install -r requirements-generative.txt</code>. No model or training metrics are being substituted.
           </p>
         )}
         {selectedModel && (
@@ -938,7 +1039,13 @@ export function GenerativeAiLab() {
         </div>
         {error && <p className="message message--error" role="alert">{error}</p>}
         {!models.length && status?.torch_available && (
-          <p className="muted">No saved {modelType.toUpperCase()} model is available for this case yet. Training runs only when you press the button.</p>
+          <p className="muted">
+            {status.models.find(
+              (item) => item.model_type === modelType && !item.available && item.unavailable_reason,
+            )?.unavailable_reason
+              ?? status.empty_reason
+              ?? `No saved ${modelType.toUpperCase()} model is available for this case yet. Training runs only when you press the button.`}
+          </p>
         )}
       </section>
 

@@ -155,6 +155,31 @@ def test_statistics_are_computed_over_all_partition_values(tmp_path):
     assert "not a volumetric rendering" in stats["visualization"]["reason"]
 
 
+def test_empty_nonuniform_partition_is_ignored_when_aggregating_field_statistics(tmp_path):
+    case_path = make_case(tmp_path / "raw")
+    write_field(
+        case_path / "processor0" / "200" / "coolant" / "T",
+        "volScalarField",
+        "scalar",
+        "0 0 0 1 0 0 0",
+        "nonuniform 0()",
+    )
+
+    stats = calculate_field_statistics(
+        case_path,
+        case_id=CASE_ID,
+        reynolds_number=560,
+        mesh_resolution="coarse",
+        region="coolant",
+        field_name="T",
+    )
+
+    assert stats["minimum"] == 302
+    assert stats["maximum"] == 302
+    assert stats["mean"] == 302
+    assert stats["sample_count"] == 1
+
+
 def test_vector_magnitude_is_calculated_from_components(tmp_path):
     case_path = make_case(tmp_path / "raw")
     stats = calculate_field_statistics(

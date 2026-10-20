@@ -169,6 +169,9 @@ def test_empty_corpus_and_no_useful_evidence_are_honest(tmp_path):
     client = app.test_client()
     status = client.get("/api/knowledge/status").get_json()
     assert status["corpus"]["indexing_status"] == "not_indexed"
+    assert status["corpus"]["source_document_count"] == 0
+    assert status["retrieval"]["status"] == "unavailable"
+    assert "No PDF, TXT, or Markdown" in status["retrieval"]["diagnostic"]
     assert status["bert"]["status"] == "not_configured"
     assert status["bert"]["label_set"] == []
     assert client.post("/api/knowledge/retrieve", json={"question": "thermal"}).status_code == 409
@@ -180,6 +183,9 @@ def test_empty_corpus_and_no_useful_evidence_are_honest(tmp_path):
         encoding="utf-8",
     )
     assert client.post("/api/knowledge/index").get_json()["indexing_status"] == "indexed"
+    ready_status = client.get("/api/knowledge/status").get_json()
+    assert ready_status["corpus"]["source_document_count"] == 1
+    assert ready_status["retrieval"]["status"] == "available"
     no_match = client.post(
         "/api/knowledge/retrieve",
         json={"question": "qzxv unrelated words"},

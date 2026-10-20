@@ -28,10 +28,13 @@ const status: KnowledgeStatus = {
     indexed_at: "2026-10-18T00:00:00Z",
     document_count: 1,
     passage_count: 1,
+    source_document_count: 1,
     documents: [],
     warnings: [],
   },
   retrieval: {
+    status: "available",
+    diagnostic: "The TF-IDF index is loaded and can retrieve passages.",
     method: "TF-IDF with unigram/bigram cosine similarity",
     minimum_cosine_similarity: 0.05,
     chunk_characters: 1200,
@@ -184,11 +187,18 @@ describe("ThermalKnowledgeAssistant (mocked API unit tests)", () => {
   it("reports retrieval failure and supports an empty corpus state", async () => {
     api.getKnowledgeStatus.mockResolvedValue({
       ...status,
+      retrieval: {
+        ...status.retrieval,
+        status: "unavailable",
+        diagnostic:
+          "No PDF, TXT, or Markdown source documents were found. Add genuine sources under data/knowledge, then build the index.",
+      },
       corpus: {
         ...status.corpus,
         indexing_status: "empty",
         document_count: 0,
         passage_count: 0,
+        source_document_count: 0,
         documents: [],
         corpus_version: "empty-corpus-fixture",
       },
@@ -196,7 +206,7 @@ describe("ThermalKnowledgeAssistant (mocked API unit tests)", () => {
     api.retrievePassages.mockRejectedValue(new Error("The knowledge index has not been built yet."));
     render(<ThermalKnowledgeAssistant />);
     fireEvent.click(await screen.findByRole("button", { name: "System health and model details" }));
-    await screen.findByText("No supported, readable knowledge documents were found.");
+    await screen.findByText(/No PDF, TXT, or Markdown source documents were found/);
     fireEvent.change(screen.getByLabelText("Your question"), {
       target: { value: "Question" },
     });

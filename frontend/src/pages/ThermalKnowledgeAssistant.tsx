@@ -197,9 +197,13 @@ export function ThermalKnowledgeAssistant() {
 
   const retrievalState = retrievalReady === true
     ? "Ready"
-    : retrievalReady === false
+    : retrievalReady === false || status?.retrieval.status === "unavailable" || statusError
       ? "Unavailable"
-      : "Not checked";
+      : status?.retrieval.status === "available"
+        ? "Available · not queried"
+        : isLoadingStatus
+          ? "Checking…"
+          : "Unavailable";
   const generationState = connectionResult?.status === "connected"
     ? "Ready"
     : status?.gpt_oss.configured
@@ -234,7 +238,7 @@ export function ThermalKnowledgeAssistant() {
 
       <div className="knowledge-status-row" aria-label="System status">
         <StatusItem label="Knowledge base" value={isLoadingStatus ? "Checking…" : corpusReady ? "Ready" : "Unavailable"} ready={corpusReady} />
-        <StatusItem label="Retrieval service" value={retrievalState} ready={retrievalReady === true} neutral={retrievalReady === null} />
+        <StatusItem label="Retrieval service" value={retrievalState} ready={retrievalReady === true} neutral={retrievalReady === null && status?.retrieval.status === "available"} />
         <StatusItem label="Answer generation" value={generationState} ready={generationState === "Ready"} neutral={generationState === "Configured" || generationState === "Checking…"} />
       </div>
       {statusError && <p className="message message--error" role="alert">{statusError}</p>}
@@ -263,9 +267,11 @@ export function ThermalKnowledgeAssistant() {
             <dl className="knowledge-stats">
               <div><dt>Index status</dt><dd>{status.corpus.indexing_status.replace("_", " ")}</dd></div>
               <div><dt>Documents</dt><dd>{status.corpus.document_count}</dd></div>
+              <div><dt>Source documents found</dt><dd>{status.corpus.source_document_count}</dd></div>
               <div><dt>Indexed passages</dt><dd>{status.corpus.passage_count}</dd></div>
               <div><dt>Corpus version</dt><dd>{status.corpus.corpus_version ?? "Not indexed"}</dd></div>
               <div><dt>Retrieval method</dt><dd>{status.retrieval.method}</dd></div>
+              <div><dt>Retrieval status</dt><dd>{status.retrieval.status}</dd></div>
               <div><dt>Minimum similarity</dt><dd>{status.retrieval.minimum_cosine_similarity}</dd></div>
               <div><dt>BERT classifier</dt><dd>{status.bert.status === "configured" ? status.bert.label_set.join(", ") : "Not configured"}</dd></div>
               <div><dt>Answer model</dt><dd>{status.gpt_oss.model ?? "Not configured"}</dd></div>
@@ -282,7 +288,7 @@ export function ThermalKnowledgeAssistant() {
                 ))}
               </ul>
             )}
-            {status.corpus.indexing_status === "empty" && <p className="muted">No supported, readable knowledge documents were found.</p>}
+            {status.retrieval.status === "unavailable" && <p className="message message--notice" role="status">{status.retrieval.diagnostic}</p>}
             {status.bert.reason && <p className="muted">{status.bert.reason}</p>}
             {status.bert.status === "configured" && (
               <div className="knowledge-system-subsection">
@@ -302,7 +308,7 @@ export function ThermalKnowledgeAssistant() {
           </p>
         )}
         {status?.gpt_oss.diagnostic && <p className="muted">Generation service: {status.gpt_oss.diagnostic}</p>}
-        <p className="muted">“Configured” reflects backend configuration only. “Ready” is shown only after a successful live connection test; retrieval status updates after an actual retrieval request.</p>
+        <p className="muted">“Configured” reflects backend configuration only. “Ready” is shown only after a successful live connection test; retrieval availability reflects the loaded index, while “Ready” follows a successful retrieval request.</p>
       </Disclosure>
 
       <section className="knowledge-process" aria-label="Question processing pipeline">

@@ -13,7 +13,7 @@ from backend.ml.generative import (
     load_model_metadata,
     reconstruct_validation_sample,
     require_torch,
-    torch_available,
+    torch_runtime_status,
     train_generative_model,
     validate_training_config,
 )
@@ -103,6 +103,7 @@ def create_generative_blueprint(settings: Settings) -> Blueprint:
 
     @blueprint.get("/status")
     def status():
+        torch_runtime = torch_runtime_status()
         try:
             manifest, digest = _dataset(settings)
             eligible_cases = []
@@ -132,7 +133,8 @@ def create_generative_blueprint(settings: Settings) -> Blueprint:
                 {
                     "dataset_status": "unavailable",
                     "error": str(error),
-                    "torch_available": torch_available(),
+                    "torch_available": torch_runtime["available"],
+                    "torch_runtime": torch_runtime,
                     "models": [],
                     "cases": [],
                 }
@@ -142,7 +144,8 @@ def create_generative_blueprint(settings: Settings) -> Blueprint:
                 "dataset_status": "available" if eligible_cases else "unavailable",
                 "cases": eligible_cases,
                 "models": models,
-                "torch_available": torch_available(),
+                "torch_available": torch_runtime["available"],
+                "torch_runtime": torch_runtime,
                 "training_device": "CPU (bounded pilot)",
                 "manifest_sha256": digest,
                 "status": "available" if eligible_cases else "unavailable",

@@ -57,7 +57,8 @@ def test_inference_probe_reports_measured_latency_and_uses_configured_model(monk
                     SimpleNamespace(
                         message=SimpleNamespace(content="Model is available.")
                     )
-                ]
+                ],
+                model="openai/gpt-oss-120b",
             )
 
     class FakeClient:
@@ -74,6 +75,113 @@ def test_inference_probe_reports_measured_latency_and_uses_configured_model(monk
     assert result["latency_ms"] >= 0
     assert captured["model"] == "openai/gpt-oss-120b"
     assert captured["max_completion_tokens"] == 128
+    assert captured["reasoning_effort"] == "low"
+
+
+def test_inference_probe_rejects_a_different_returned_model(monkeypatch):
+    class FakeCompletions:
+        @staticmethod
+        def create(**_kwargs):
+            return SimpleNamespace(
+                choices=[
+                    SimpleNamespace(
+                        message=SimpleNamespace(content="Model is available.")
+                    )
+                ],
+                model="openai/gpt-oss-20b",
+            )
+
+    class FakeClient:
+        chat = SimpleNamespace(completions=FakeCompletions())
+
+    monkeypatch.setattr(gpt_oss_service, "Groq", lambda **_kwargs: FakeClient())
+    with pytest.raises(GptOssServiceError, match="different model") as error:
+        gpt_oss_service.test_gpt_oss_connection(make_settings())
+
+    assert error.value.model == "openai/gpt-oss-20b"
+
+
+def test_generation_uses_supported_completion_budget_and_low_reasoning(monkeypatch):
+    captured = {}
+
+    class FakeCompletions:
+        @staticmethod
+        def create(**kwargs):
+            captured.update(kwargs)
+            return SimpleNamespace(
+                choices=[
+                    SimpleNamespace(
+                        finish_reason="stop",
+                        message=SimpleNamespace(content="Complete answer."),
+                    )
+                ]
+            )
+
+    class FakeClient:
+        chat = SimpleNamespace(completions=FakeCompletions())
+
+    monkeypatch.setattr(gpt_oss_service, "Groq", lambda **_kwargs: FakeClient())
+
+    result = gpt_oss_service.generate_text(make_settings(), "Explain this result.")
+
+    assert result == "Complete answer."
+    assert captured["max_completion_tokens"] == 2_048
+    assert captured["reasoning_effort"] == "low"
+
+
+def test_feature_interpretation_uses_only_supplied_evidence(monkeypatch):
+    captured = {}
+
+    def fake_completion(_settings, prompt, **_kwargs):
+        captured["prompt"] = prompt
+        return "The supplied validation evidence is limited."
+
+    monkeypatch.setattr(gpt_oss_service, "_request_completion", fake_completion)
+    result = gpt_oss_service.interpret_feature_context(
+        make_settings(),
+        "validation",
+        {"recorded_metric": 1.25, "status": "exploratory"},
+    )
+
+    assert "1.25" in captured["prompt"]
+    assert "Do not invent or alter numbers" in captured["prompt"]
+    assert "regulatory compliance" in captured["prompt"]
+    assert result["interpretation"] == "The supplied validation evidence is limited."
+    assert result["model"] == "openai/gpt-oss-120b"
+
+
+def test_feature_interpretation_rejects_unsupported_feature():
+    with pytest.raises(ValueError, match="Unsupported"):
+        gpt_oss_service.interpret_feature_context(
+            make_settings(), "design", {"verified": True}
+        )
+
+
+def test_truncated_completion_is_not_returned_as_a_success(monkeypatch):
+    class FakeCompletions:
+        @staticmethod
+        def create(**_kwargs):
+            return SimpleNamespace(
+                choices=[
+                    SimpleNamespace(
+                        finish_reason="length",
+                        message=SimpleNamespace(content="Incomplete partial answer"),
+                    )
+                ]
+            )
+
+    class FakeClient:
+        chat = SimpleNamespace(completions=FakeCompletions())
+
+    monkeypatch.setattr(gpt_oss_service, "Groq", lambda **_kwargs: FakeClient())
+
+    with pytest.raises(GptOssServiceError) as error:
+        gpt_oss_service.generate_text(make_settings(), "Explain this result.")
+
+    assert error.value.status_code == 502
+    assert error.value.diagnostic == (
+        "GPT-OSS response was truncated before completion; no partial answer was returned."
+    )
 
 
 def test_status_route_returns_not_verified_when_credentials_are_missing():

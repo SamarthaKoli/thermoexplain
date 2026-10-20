@@ -11,13 +11,16 @@ import type {
 
 const api = vi.hoisted(() => ({
   generatePatch: vi.fn(),
+  getGptOssStatus: vi.fn(),
   getGenerativeSamples: vi.fn(),
   getGenerativeStatus: vi.fn(),
+  interpretFeatureEvidence: vi.fn(),
   reconstructPatch: vi.fn(),
   trainGenerativeModel: vi.fn(),
 }));
 
 vi.mock("../services/generativeApi", () => api);
+vi.mock("../services/providerApi", () => api);
 
 const caseRecord = {
   case_id: "Re560/coarse",
@@ -117,6 +120,14 @@ function makeStatus(
     cases: [caseRecord],
     models,
     torch_available: torchAvailable,
+    torch_runtime: {
+      available: torchAvailable,
+      version: torchAvailable ? "2.14.1+cpu" : null,
+      device: torchAvailable ? "cpu" : null,
+      diagnostic: torchAvailable
+        ? "CPU PyTorch runtime imported successfully."
+        : "PyTorch is not installed in the backend environment.",
+    },
     training_device: "CPU (bounded pilot)",
     manifest_sha256: "verified-test-digest",
     status: "available",
@@ -137,6 +148,20 @@ describe("GenerativeAiLab", () => {
     vi.clearAllMocks();
     window.history.replaceState({}, "", "/");
     api.getGenerativeStatus.mockResolvedValue(makeStatus());
+    api.getGptOssStatus.mockResolvedValue({
+      provider: "GPT-OSS",
+      configured: true,
+      model: "openai/gpt-oss-120b",
+      status: "reachable",
+      diagnostic: "Model reachable.",
+    });
+    api.interpretFeatureEvidence.mockResolvedValue({
+      label: "AI-generated interpretation",
+      provider: "GPT-OSS",
+      model: "openai/gpt-oss-120b",
+      interpretation: "This result is exploratory.",
+      generated_at: "2026-10-19T00:00:00Z",
+    });
     api.getGenerativeSamples.mockResolvedValue({
       model_id: makeModel("vae").model_id,
       model_type: "vae",
@@ -156,6 +181,19 @@ describe("GenerativeAiLab", () => {
     expect(screen.getByText(/PyTorch is not installed/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Train VAE" })).toBeDisabled();
     expect(screen.getByText(/No model or training metrics are being substituted/)).toBeInTheDocument();
+  });
+
+  it("explains when a saved model checkpoint is missing", async () => {
+    const model = {
+      ...makeModel("vae"),
+      available: false,
+      unavailable_reason: "checkpoint.pt is missing; restore it or train a new model.",
+    };
+    api.getGenerativeStatus.mockResolvedValue(makeStatus([model], true));
+    render(<GenerativeAiLab />);
+
+    expect(await screen.findByText(/checkpoint\.pt is missing/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Train VAE" })).toBeEnabled();
   });
 
   it("uses actual saved model metadata and renders real VAE reconstruction output", async () => {
@@ -186,6 +224,42 @@ describe("GenerativeAiLab", () => {
       model_id: model.model_id,
       sample_id: sample.sample_id,
     });
+  });
+
+  it("sends the real generative result evidence for GPT-OSS interpretation", async () => {
+    window.history.replaceState({}, "", "/generative.html");
+    const model = makeModel("vae");
+    api.getGenerativeStatus.mockResolvedValue(makeStatus([model], true));
+    const result: PatchResult = {
+      label: "Verified held-out reconstruction",
+      sample,
+      target: caseRecord.target,
+      values_K: {
+        original: makeVolume(290),
+        reconstructed: makeVolume(289.5),
+        difference: makeVolume(-0.5),
+      },
+      mask: Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => Array(8).fill(true))),
+      metrics: { mae_K: 0.5, rmse_K: 0.7 },
+      status: "exploratory",
+    };
+    api.reconstructPatch.mockResolvedValue(result);
+    render(<GenerativeAiLab />);
+
+    fireEvent.click(await screen.findByRole("button", { name: "Run Reconstruction" }));
+    const explainButton = await screen.findByRole("button", { name: "Explain current result" });
+    await waitFor(() => expect(explainButton).toBeEnabled());
+    fireEvent.click(explainButton);
+
+    expect(await screen.findByText("This result is exploratory.")).toBeInTheDocument();
+    expect(api.interpretFeatureEvidence).toHaveBeenCalledWith(
+      "generative",
+      expect.objectContaining({
+        model_type: "vae",
+        model_id: model.model_id,
+        metrics: result.metrics,
+      }),
+    );
   });
 
   it("requires a trained GAN, labels generated output synthetic, and shows measured comparison", async () => {

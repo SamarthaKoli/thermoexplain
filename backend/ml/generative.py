@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import importlib.util
 import json
 import re
 import tempfile
@@ -39,20 +38,53 @@ class GenerativeError(Exception):
         self.status_code = status_code
 
 
-def torch_available() -> bool:
-    return importlib.util.find_spec("torch") is not None
-
-
-def require_torch():
+def _import_torch():
     try:
         import torch
-    except ImportError as error:
+    except ModuleNotFoundError as error:
+        if error.name == "torch":
+            raise GenerativeError(
+                "PyTorch is not installed in the backend environment. Install the CPU-only "
+                "dependency with `python -m pip install -r requirements-generative.txt`.",
+                503,
+            ) from error
         raise GenerativeError(
-            "PyTorch is not installed. Install the CPU-only research dependency with "
-            "`python -m pip install torch --index-url https://download.pytorch.org/whl/cpu`.",
+            "PyTorch could not initialize because a required Python module is missing.",
+            503,
+        ) from error
+    except (ImportError, OSError) as error:
+        raise GenerativeError(
+            "PyTorch could not initialize in the backend environment. Check the installed "
+            "PyTorch build and its native runtime dependencies.",
             503,
         ) from error
     return torch
+
+
+def torch_runtime_status() -> dict[str, Any]:
+    try:
+        torch = _import_torch()
+    except GenerativeError as error:
+        return {
+            "available": False,
+            "version": None,
+            "device": None,
+            "diagnostic": str(error),
+        }
+    return {
+        "available": True,
+        "version": str(torch.__version__),
+        "device": "cpu",
+        "diagnostic": "CPU PyTorch runtime imported successfully.",
+    }
+
+
+def torch_available() -> bool:
+    return torch_runtime_status()["available"]
+
+
+def require_torch():
+    return _import_torch()
 
 
 def validate_training_config(model_type: str, seed: Any, epochs: Any) -> tuple[str, int, int]:
@@ -576,8 +608,18 @@ def train_generative_model(
 
 def load_model_metadata(models_root: Path, model_id: str) -> dict[str, Any]:
     metadata_path, checkpoint_path = _model_paths(models_root, model_id)
-    if not metadata_path.is_file() or not checkpoint_path.is_file():
-        raise GenerativeError("The requested trained generative model is unavailable.", 404)
+    if not metadata_path.is_file():
+        raise GenerativeError(
+            f"The saved generative model {model_id} is unavailable because metadata.json is missing; "
+            "restore the model directory or train a new model.",
+            404,
+        )
+    if not checkpoint_path.is_file():
+        raise GenerativeError(
+            f"The saved generative model {model_id} is unavailable because checkpoint.pt is missing; "
+            "restore the checkpoint or train a new model.",
+            404,
+        )
     try:
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
@@ -642,6 +684,11 @@ def list_generative_models(models_root: Path, current_manifest_sha256: str) -> l
                 continue
             _metadata, checkpoint = _model_paths(models_root, model_id)
             if not checkpoint.is_file():
+                metadata["available"] = False
+                metadata["unavailable_reason"] = (
+                    f"checkpoint.pt is missing for {model_id}; restore the checkpoint or train a new model."
+                )
+                models.append(metadata)
                 continue
             metadata["available"] = (
                 metadata.get("source", {}).get("manifest_sha256") == current_manifest_sha256

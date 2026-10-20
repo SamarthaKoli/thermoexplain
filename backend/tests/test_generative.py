@@ -168,6 +168,20 @@ def test_checkpoint_metadata_loader_rejects_missing_invalid_and_mismatched_model
         tmp_path / "generative" / "models" / "vae_re560_coarse_0123456789"
     )
     model_directory.mkdir(parents=True)
+    (model_directory / "metadata.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "model_id": model_directory.name,
+                "model_type": "vae",
+                "source": {"manifest_sha256": "current"},
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(GenerativeError, match="checkpoint.pt is missing"):
+        load_model_metadata(tmp_path, model_directory.name)
+
     (model_directory / "checkpoint.pt").write_bytes(b"not loaded by metadata inspection")
     (model_directory / "metadata.json").write_text(
         json.dumps({"schema_version": 1, "model_id": "other"}),
@@ -175,6 +189,30 @@ def test_checkpoint_metadata_loader_rejects_missing_invalid_and_mismatched_model
     )
     with pytest.raises(GenerativeError, match="does not match"):
         load_model_metadata(tmp_path, model_directory.name)
+
+
+def test_model_status_reports_a_missing_checkpoint(tmp_path):
+    model_id = "vae_re560_coarse_0123456789"
+    model_directory = tmp_path / "generative" / "models" / model_id
+    model_directory.mkdir(parents=True)
+    (model_directory / "metadata.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "model_id": model_id,
+                "model_type": "vae",
+                "source": {"manifest_sha256": "current"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    models = generative.list_generative_models(tmp_path, "current")
+
+    assert len(models) == 1
+    assert models[0]["available"] is False
+    assert "checkpoint.pt is missing" in models[0]["unavailable_reason"]
+    assert model_id in models[0]["unavailable_reason"]
 
 
 def test_checkpoint_model_loader_surfaces_runtime_failure(tmp_path, monkeypatch):
@@ -353,6 +391,9 @@ def test_generative_api_reports_dataset_state_and_handles_invalid_training(tmp_p
 
     assert status.status_code == 200
     assert status.get_json()["cases"][0]["target"]["field"] == "T"
+    assert status.get_json()["torch_available"] is status.get_json()["torch_runtime"]["available"]
+    if status.get_json()["torch_available"]:
+        assert status.get_json()["torch_runtime"]["device"] == "cpu"
     assert invalid_training.status_code == 400
     assert "case_id" in invalid_training.get_json()["error"]
 

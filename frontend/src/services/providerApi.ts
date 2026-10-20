@@ -1,4 +1,8 @@
-import type { GptOssStatus, ProviderTestResult } from "../types/provider";
+import type {
+  FeatureInterpretation,
+  GptOssStatus,
+  ProviderTestResult,
+} from "../types/provider";
 
 const apiBaseUrl = (
   import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:5000/api"
@@ -16,18 +20,29 @@ export function testGptOssConnection(): Promise<ProviderTestResult> {
   });
 }
 
+export function interpretFeatureEvidence(
+  feature: "generative" | "validation",
+  context: Record<string, unknown>,
+): Promise<FeatureInterpretation> {
+  return providerJson<FeatureInterpretation>(`${apiBaseUrl}/llm/interpretation`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ feature, context }),
+  });
+}
+
 async function providerJson<T>(url: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
     response = await fetch(url, init);
   } catch {
-    throw new Error("Could not reach the GPT-OSS status API. Check that the backend is running.");
+    throw new Error("Could not reach the GPT-OSS API. Check that the backend is running.");
   }
   let payload: unknown;
   try {
     payload = await response.json();
   } catch {
-    throw new Error("The GPT-OSS status API returned an invalid response.");
+    throw new Error("The GPT-OSS API returned an invalid response.");
   }
   if (!response.ok) throwApiError(payload, response.status);
   return payload as T;

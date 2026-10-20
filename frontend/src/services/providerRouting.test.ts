@@ -47,6 +47,14 @@ describe("provider and RAG API routing", () => {
     });
   });
 
+  it("reports provider API network failures without mislabeling them as status-only", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("offline")));
+
+    await expect(getGptOssStatus()).rejects.toThrow(
+      "Could not reach the GPT-OSS API. Check that the backend is running.",
+    );
+  });
+
   it("uses GPT-OSS for explainability and knowledge calls", async () => {
     const fetchMock = vi.fn().mockResolvedValue(response);
     vi.stubGlobal("fetch", fetchMock);

@@ -1,24 +1,30 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { EvaluationValidation } from "./EvaluationValidation";
 
 const api = vi.hoisted(() => ({
   getGptOssStatus: vi.fn(),
+  interpretFeatureEvidence: vi.fn(),
   testGptOssConnection: vi.fn(),
   getGenerativeStatus: vi.fn(),
   getKnowledgeStatus: vi.fn(),
   getSurrogateModels: vi.fn(),
+  getValidationStatus: vi.fn(),
 }));
 
 vi.mock("../services/providerApi", () => ({
   getGptOssStatus: api.getGptOssStatus,
+  interpretFeatureEvidence: api.interpretFeatureEvidence,
   testGptOssConnection: api.testGptOssConnection,
 }));
 vi.mock("../services/generativeApi", () => ({ getGenerativeStatus: api.getGenerativeStatus }));
 vi.mock("../services/knowledgeApi", () => ({ getKnowledgeStatus: api.getKnowledgeStatus }));
 vi.mock("../services/mlApi", () => ({
   getSurrogateModels: api.getSurrogateModels,
+}));
+vi.mock("../services/validationApi", () => ({
+  getValidationStatus: api.getValidationStatus,
 }));
 
 const dataset = {
@@ -72,10 +78,13 @@ describe("EvaluationValidation", () => {
         indexed_at: null,
         document_count: 0,
         passage_count: 0,
+        source_document_count: 0,
         documents: [],
         warnings: [],
       },
       retrieval: {
+        status: "unavailable",
+        diagnostic: "No knowledge sources.",
         method: "TF-IDF test retrieval",
         minimum_cosine_similarity: 0.05,
         chunk_characters: 1200,
@@ -103,6 +112,51 @@ describe("EvaluationValidation", () => {
       checked_at: "2026-10-19T00:00:00Z",
       diagnostic: "Service reachable.",
     });
+    api.getValidationStatus.mockResolvedValue({
+      checked_at: "2026-10-19T00:00:00Z",
+      summary: {
+        full_suite_status: "not_evaluated",
+        module_count: 5,
+        modules_with_recorded_evidence: 0,
+        status_counts: {
+          passed: 0,
+          failed: 0,
+          partial: 0,
+          not_evaluated: 3,
+          unavailable: 2,
+          not_reported: 0,
+        },
+        limitations: ["No full validation suite is run."],
+      },
+      dataset: {
+        status: "scanned",
+        generated_at: "2026-10-18T00:00:00Z",
+        case_count: 6,
+        warnings: [],
+        diagnostic: null,
+      },
+      modules: [
+        { id: "mesh_independence", title: "Mesh independence", status: "not_evaluated", recorded_at: null, metrics: {}, limitations: [], diagnostic: null },
+        { id: "surrogate", title: "Surrogate", status: "unavailable", recorded_at: null, metrics: {}, limitations: [], diagnostic: null },
+        { id: "interpretability", title: "Interpretability", status: "not_evaluated", recorded_at: null, metrics: {}, limitations: [], diagnostic: null },
+        { id: "generative", title: "Generative", status: "not_evaluated", recorded_at: null, metrics: {}, limitations: [], diagnostic: null },
+        { id: "knowledge_grounding", title: "Knowledge grounding", status: "unavailable", recorded_at: null, metrics: {}, limitations: [], diagnostic: null },
+      ],
+      provider: {
+        provider: "GPT-OSS",
+        model: "openai/gpt-oss-120b",
+        configured: true,
+        status: "configured",
+        counts_as_validation: false,
+      },
+    });
+    api.interpretFeatureEvidence.mockResolvedValue({
+      label: "AI-generated interpretation",
+      provider: "GPT-OSS",
+      model: "openai/gpt-oss-120b",
+      interpretation: "The available checks remain exploratory.",
+      generated_at: "2026-10-19T00:00:00Z",
+    });
     api.testGptOssConnection.mockResolvedValue({
       provider: "GPT-OSS",
       status: "connected",
@@ -117,7 +171,8 @@ describe("EvaluationValidation", () => {
     render(<EvaluationValidation dataset={dataset} />);
 
     expect(await screen.findByText(/Dataset: 6 scanned cases/)).toBeInTheDocument();
-    expect(screen.getByText("Full suite: not reported")).toBeInTheDocument();
+    expect(screen.getByText("Full suite: not evaluated")).toBeInTheDocument();
+    expect(screen.getByText("5 / 5")).toBeInTheDocument();
     expect(screen.getByText(/No current surrogate evaluation result/)).toBeInTheDocument();
     expect(screen.getByText(/No current VAE result/)).toBeInTheDocument();
     expect(screen.queryByText(/MAE · lower is better/)).not.toBeInTheDocument();
@@ -128,7 +183,7 @@ describe("EvaluationValidation", () => {
     render(<EvaluationValidation dataset={dataset} />);
 
     const surrogateSection = screen.getByRole("heading", { name: "2. Surrogate Model Evaluation" }).closest("section");
-    expect(surrogateSection).toHaveTextContent("Unavailable");
+    await waitFor(() => expect(surrogateSection).toHaveTextContent("Unavailable"));
     fireEvent.click(surrogateSection?.querySelector(".validation-card__toggle")!);
     expect(await screen.findByText("Model inventory unavailable.")).toHaveAttribute("role", "alert");
   });
@@ -179,6 +234,21 @@ describe("EvaluationValidation", () => {
 
     expect(await screen.findByText("120 ms")).toBeInTheDocument();
     expect(api.testGptOssConnection).toHaveBeenCalledOnce();
+  });
+
+  it("sends current validation evidence to GPT-OSS without creating validation metrics", async () => {
+    render(<EvaluationValidation dataset={dataset} />);
+
+    fireEvent.click(await screen.findByRole("button", { name: "Explain current evidence" }));
+
+    expect(await screen.findByText("The available checks remain exploratory.")).toBeInTheDocument();
+    expect(api.interpretFeatureEvidence).toHaveBeenCalledWith(
+      "validation",
+      expect.objectContaining({
+        dataset: expect.objectContaining({ scan_status: "scanned" }),
+        scope: expect.stringContaining("full engineering validation suite"),
+      }),
+    );
   });
 
   it("exports the current report through the browser PDF print workflow", () => {

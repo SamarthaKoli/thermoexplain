@@ -1,7 +1,11 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 import type { useDatasetStatus } from "../hooks/useDatasetStatus";
-import { getGptOssStatus, testGptOssConnection } from "../services/providerApi";
+import {
+  getGptOssStatus,
+  interpretFeatureEvidence,
+  testGptOssConnection,
+} from "../services/providerApi";
 import { getGenerativeStatus } from "../services/generativeApi";
 import { getKnowledgeStatus } from "../services/knowledgeApi";
 import { getSurrogateModels } from "../services/mlApi";
@@ -12,7 +16,16 @@ import type {
   SurrogateModel,
   SurrogateModelsResponse,
 } from "../types/ml";
-import type { GptOssStatus, ProviderTestResult } from "../types/provider";
+import type {
+  FeatureInterpretation,
+  GptOssStatus,
+  ProviderTestResult,
+} from "../types/provider";
+import { getValidationStatus } from "../services/validationApi";
+import type {
+  ValidationEvidenceStatus,
+  ValidationStatusResponse,
+} from "../types/validation";
 
 interface LoadResult<T> {
   value: T | null;
@@ -22,6 +35,13 @@ interface LoadResult<T> {
 interface EvaluationValidationProps {
   dataset: ReturnType<typeof useDatasetStatus>;
 }
+
+type ValidationModuleId =
+  | "mesh_independence"
+  | "surrogate"
+  | "interpretability"
+  | "generative"
+  | "knowledge_grounding";
 
 const emptyResult = <T,>(): LoadResult<T> => ({ value: null, error: null });
 
@@ -71,11 +91,27 @@ function ValidationCard({
   children: ReactNode;
   details: ReactNode;
   id: string;
-  status: "available" | "caution" | "unavailable" | "neutral";
+  status: ValidationEvidenceStatus;
   summary: ReactNode;
   title: string;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const statusLabels: Record<ValidationEvidenceStatus, string> = {
+    passed: "Passed",
+    failed: "Failed",
+    partial: "Partial",
+    not_evaluated: "Not evaluated",
+    unavailable: "Unavailable",
+    not_reported: "Not reported",
+  };
+  const statusStyles: Record<ValidationEvidenceStatus, string> = {
+    passed: "available",
+    failed: "unavailable",
+    partial: "caution",
+    not_evaluated: "neutral",
+    unavailable: "unavailable",
+    not_reported: "neutral",
+  };
   return (
     <section className="panel validation-card" aria-labelledby={`${id}-title`}>
       <div className="validation-card__heading">
@@ -85,8 +121,8 @@ function ValidationCard({
             <span aria-hidden="true" className="validation-card__chevron">⌄</span>
           </button>
         </h2>
-        <span className={`validation-status validation-status--${status}`}>
-          {status === "available" ? "Evidence available" : status === "caution" ? "Caveats apply" : status === "unavailable" ? "Unavailable" : "Not evaluated"}
+        <span className={`validation-status validation-status--${statusStyles[status]}`}>
+          {statusLabels[status]}
         </span>
       </div>
       <div className="validation-card__summary">{summary}</div>
@@ -245,8 +281,13 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
   const [generative, setGenerative] = useState<LoadResult<GenerativeStatus>>(emptyResult);
   const [knowledge, setKnowledge] = useState<LoadResult<KnowledgeStatus>>(emptyResult);
   const [gptOss, setGptOss] = useState<LoadResult<GptOssStatus>>(emptyResult);
+  const [validation, setValidation] =
+    useState<LoadResult<ValidationStatusResponse>>(emptyResult);
   const [gptOssConnection, setGptOssConnection] = useState<LoadResult<ProviderTestResult>>(emptyResult);
   const [gptOssTesting, setGptOssTesting] = useState(false);
+  const [gptOssInterpretation, setGptOssInterpretation] = useState<FeatureInterpretation | null>(null);
+  const [gptOssInterpretationError, setGptOssInterpretationError] = useState<string | null>(null);
+  const [gptOssInterpreting, setGptOssInterpreting] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshToken, setRefreshToken] = useState(0);
 
@@ -258,12 +299,14 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       getGenerativeStatus().then((value) => ({ value, error: null })).catch((error: unknown) => ({ value: null, error: errorMessage(error) })),
       getKnowledgeStatus().then((value) => ({ value, error: null })).catch((error: unknown) => ({ value: null, error: errorMessage(error) })),
       getGptOssStatus().then((value) => ({ value, error: null })).catch((error: unknown) => ({ value: null, error: errorMessage(error) })),
-    ]).then(([modelResult, generativeResult, knowledgeResult, gptOssResult]) => {
+      getValidationStatus().then((value) => ({ value, error: null })).catch((error: unknown) => ({ value: null, error: errorMessage(error) })),
+    ]).then(([modelResult, generativeResult, knowledgeResult, gptOssResult, validationResult]) => {
       if (!active) return;
       setModels(modelResult);
       setGenerative(generativeResult);
       setKnowledge(knowledgeResult);
       setGptOss(gptOssResult);
+      setValidation(validationResult);
     }).finally(() => {
       if (active) setIsRefreshing(false);
     });
@@ -276,13 +319,28 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
   const topShapFeature = [...shapFeatures].sort((left, right) => right.mean_absolute_shap - left.mean_absolute_shap)[0];
   const vaeModels = availableModels.filter((model) => model.model_type === "vae");
   const ganModels = availableModels.filter((model) => model.model_type === "gan");
-  const feedsLoaded = [models.value, generative.value, knowledge.value, gptOss.value].filter(Boolean).length;
+  const feedsLoaded = [
+    dataset.scan,
+    models.value,
+    generative.value,
+    knowledge.value,
+    gptOss.value,
+  ].filter(Boolean).length;
   const dataStatus = dataset.error
     ? "Scan status unavailable"
     : dataset.scan?.status === "scanned"
       ? `${dataset.cases.length} scanned cases`
       : dataset.scan?.status ?? (dataset.isLoading ? "Checking…" : "Not scanned");
   const topModelMetric = selectedSurrogate?.metrics.extra_trees_spatial_validation;
+  const validationModuleStatus = (
+    id: ValidationModuleId,
+    fallback: ValidationEvidenceStatus,
+  ): ValidationEvidenceStatus =>
+    fallback === "unavailable"
+      ? "unavailable"
+      : validation.value?.modules.find((module) => module.id === id)?.status ??
+        (validation.error ? "unavailable" : fallback);
+  const validationCounts = validation.value?.summary.status_counts;
   async function testGptOss() {
     setGptOssTesting(true);
     setGptOssConnection(emptyResult);
@@ -292,6 +350,63 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       setGptOssConnection({ value: null, error: errorMessage(error) });
     } finally {
       setGptOssTesting(false);
+    }
+  }
+
+  async function interpretValidationEvidence() {
+    setGptOssInterpreting(true);
+    setGptOssInterpretation(null);
+    setGptOssInterpretationError(null);
+    const evidence = {
+      dataset: {
+        scan_status: dataset.scan?.status ?? "unavailable",
+        scanned_cases: dataset.cases.map((item) => item.case_id),
+        warnings: dataset.scan?.warnings ?? [],
+      },
+      surrogate: selectedSurrogate
+        ? {
+            model_id: selectedSurrogate.model_id,
+            target: selectedSurrogate.target,
+            validation_split: selectedSurrogate.split,
+            recorded_metrics: selectedSurrogate.metrics,
+            global_shap: selectedSurrogate.explainability.shap_global,
+            limitations: selectedSurrogate.limitations,
+          }
+        : { status: "no current surrogate model available" },
+      generative: {
+        available_model_count: availableModels.length,
+        models: availableModels.slice(0, 4).map((model) => ({
+          model_id: model.model_id,
+          model_type: model.model_type,
+          source: model.source,
+          recorded_metrics: model.metrics,
+          limitations: model.limitations,
+        })),
+      },
+      knowledge: knowledge.value
+        ? {
+            indexing_status: knowledge.value.corpus.indexing_status,
+            document_count: knowledge.value.corpus.document_count,
+            passage_count: knowledge.value.corpus.passage_count,
+            retrieval_method: knowledge.value.retrieval.method,
+            warnings: knowledge.value.corpus.warnings,
+          }
+        : { status: knowledge.error ? "unavailable" : "not yet loaded" },
+      gpt_oss: gptOss.value
+        ? {
+            configured: gptOss.value.configured,
+            status: gptOss.value.status,
+            model: gptOss.value.model,
+          }
+        : { status: gptOss.error ? "unavailable" : "not yet loaded" },
+      scope: "The backend status summary consolidates existing evidence only and does not run a full engineering validation suite.",
+    };
+    try {
+      setGptOssInterpretation(await interpretFeatureEvidence("validation", evidence));
+    } catch (error) {
+      setGptOssInterpretationError(errorMessage(error));
+    } finally {
+      setGptOssInterpreting(false);
     }
   }
 
@@ -315,17 +430,26 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       <section className="panel validation-matrix" aria-labelledby="validation-matrix-title">
         <div className="validation-card__heading">
           <h2 id="validation-matrix-title">System Reliability Matrix</h2>
-          <span className="validation-status validation-status--unavailable">Full suite: not reported</span>
+          <span className="validation-status validation-status--neutral">
+            Full suite: {validation.value?.summary.full_suite_status.replace("_", " ") ?? (validation.error ? "Unavailable" : "Checking…")}
+          </span>
         </div>
         <div className="validation-matrix__metrics">
-          <MetricValue label="Verification coverage" value="Not available" />
-          <MetricValue label="Modules assessed" value="Not reported" />
-          <MetricValue label="Verified" value="Not reported" />
-          <MetricValue label="Qualified with caveats" value="Not reported" />
-          <MetricValue label="Restricted" value="Not reported" />
+          <MetricValue label="Verification coverage" value="Not reported" />
+          <MetricValue label="Modules with recorded evidence" value={validation.value ? `${validation.value.summary.modules_with_recorded_evidence} / ${validation.value.summary.module_count}` : validation.error ? "Unavailable" : "Checking…"} />
+          <MetricValue label="Passed" value={validationCounts?.passed ?? (validation.error ? "Unavailable" : "Checking…")} />
+          <MetricValue label="Partial" value={validationCounts?.partial ?? (validation.error ? "Unavailable" : "Checking…")} />
+          <MetricValue label="Failed" value={validationCounts?.failed ?? (validation.error ? "Unavailable" : "Checking…")} />
+          <MetricValue label="Not evaluated" value={validationCounts?.not_evaluated ?? (validation.error ? "Unavailable" : "Checking…")} />
+          <MetricValue label="Unavailable" value={validationCounts?.unavailable ?? (validation.error ? "Unavailable" : "Checking…")} />
+          <MetricValue label="Not reported" value={validationCounts?.not_reported ?? (validation.error ? "Unavailable" : "Checking…")} />
           <MetricValue label="Status feeds loaded" value={`${feedsLoaded} / 5`} />
         </div>
-        <p className="muted">The backend has no aggregate validation-suite endpoint. Counts and coverage are not inferred from service configuration or model availability.</p>
+        {validation.error && <p className="message message--error" role="alert">{validation.error}</p>}
+        <p className="muted">
+          The backend summary consolidates recorded evidence; it does not run a full validation suite. GPT-OSS reachability is operational information and is not counted as scientific validation.
+        </p>
+        {validation.value?.summary.limitations.map((item) => <p className="muted" key={item}>{item}</p>)}
         <div className="validation-matrix__highlights">
           <p><strong>Numerical mesh independence:</strong> Not evaluated by the current validation API.</p>
           <p><strong>Surrogate prediction fidelity:</strong> {selectedSurrogate ? `Recorded spatial-holdout MAE ${metric(topModelMetric?.mae, selectedSurrogate.target.units ?? "")}; exploratory, not independently validated.` : "No current evaluation result."}</p>
@@ -356,7 +480,7 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       <ValidationCard
         id="validation-cfd"
         title="1. CFD Numerical Consistency"
-        status="unavailable"
+        status={validationModuleStatus("mesh_independence", "not_evaluated")}
         summary={<><strong>Mesh convergence:</strong> Not evaluated · GCI: Not available</>}
         details={<>
           <p className="muted">The current backend exposes mesh-comparison input, but its response contract reports the comparison as unavailable. No GCI, Richardson extrapolation, or convergence status is returned.</p>
@@ -374,7 +498,7 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       <ValidationCard
         id="validation-surrogate"
         title="2. Surrogate Model Evaluation"
-        status={models.error ? "unavailable" : selectedSurrogate ? "caution" : "unavailable"}
+        status={validationModuleStatus("surrogate", models.error ? "unavailable" : selectedSurrogate ? "partial" : "not_evaluated")}
         summary={selectedSurrogate ? <><strong>MAE:</strong> {metric(topModelMetric?.mae, selectedSurrogate.target.units ?? "")} <span>·</span> <strong>R²:</strong> {metric(topModelMetric?.r2)}</> : <strong>No current surrogate evaluation result</strong>}
         details={models.error ? <p className="message message--error" role="alert">{models.error}</p> : selectedSurrogate ? <ModelDetails model={selectedSurrogate} /> : <p className="muted">{models.value?.empty_reason ?? "Model inventory is loading or unavailable."} No evaluation values are substituted.</p>}
       >
@@ -387,7 +511,7 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       <ValidationCard
         id="validation-interpretability"
         title="3. SHAP &amp; LIME Interpretability"
-        status={topShapFeature ? "caution" : "unavailable"}
+        status={validationModuleStatus("interpretability", topShapFeature ? "partial" : "not_evaluated")}
         summary={topShapFeature ? <><strong>Leading global SHAP feature:</strong> {topShapFeature.feature} · SHAP/LIME agreement: Not evaluated</> : <strong>No current explanation results available</strong>}
         details={selectedSurrogate ? <InterpretabilityDetails model={selectedSurrogate} /> : <p className="muted">Global SHAP and LIME explanation data are not available without a current surrogate model.</p>}
       >
@@ -397,7 +521,7 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       <ValidationCard
         id="validation-generative"
         title="4. Generative AI Fidelity &amp; Physics"
-        status={availableModels.length ? "caution" : generative.error ? "unavailable" : "neutral"}
+        status={validationModuleStatus("generative", availableModels.length ? "partial" : generative.error ? "unavailable" : "not_evaluated")}
         summary={<div className="validation-generative-summaries">
           <div><strong>VAE reconstruction</strong><span>{vaeModels.length ? `MAE ${metric(typeof vaeModels[0].metrics.mae_K === "number" ? vaeModels[0].metrics.mae_K : null, "K")}` : "No current VAE result"}</span></div>
           <div><strong>GAN field generation</strong><span>{ganModels.length ? "Physical validity not established" : "No current GAN result"}</span></div>
@@ -411,7 +535,7 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       <ValidationCard
         id="validation-grounding"
         title="5. NLP Intent &amp; Citation Grounding"
-        status={knowledge.error ? "unavailable" : knowledge.value?.corpus.passage_count ? "caution" : "neutral"}
+        status={validationModuleStatus("knowledge_grounding", knowledge.error ? "unavailable" : knowledge.value?.corpus.passage_count ? "not_evaluated" : "unavailable")}
         summary={<div className="validation-generative-summaries">
           <div><strong>Intent classification</strong><span>{knowledge.value?.bert?.status === "configured" ? "Configured · benchmark F1 not returned" : "Not configured / evaluated"}</span></div>
           <div><strong>Retrieval &amp; grounding</strong><span>{knowledge.value ? `${knowledge.value.corpus.document_count} documents · ${knowledge.value.corpus.passage_count} passages · traceability not evaluated` : "Status unavailable"}</span></div>
@@ -437,7 +561,7 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       <ValidationCard
         id="validation-providers"
         title="6. GPT-OSS Provider Status"
-        status="neutral"
+        status="not_evaluated"
         summary={<div className="validation-generative-summaries">
           <div><strong>GPT-OSS</strong><span>{gptOss.error || gptOss.value?.status === "unavailable" ? "Unavailable" : gptOss.value?.status === "reachable" ? "Reachable" : "Not Verified"}</span></div>
         </div>}
@@ -447,6 +571,35 @@ export function EvaluationValidation({ dataset }: EvaluationValidationProps) {
       >
         <p className="muted">GPT-OSS is the sole configured language-model provider. A successful inference probe does not establish scientific validity.</p>
       </ValidationCard>
+
+      <section className="panel validation-ai-assessment" aria-labelledby="validation-ai-title">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">{gptOss.value?.provider ?? "GPT-OSS"} · EVIDENCE SUMMARY</p>
+            <h2 id="validation-ai-title">Explain the available validation evidence</h2>
+          </div>
+          <span className={`status-pill${gptOss.value?.status === "reachable" ? " status-pill--connected" : " status-pill--unavailable"}`}>
+            {gptOss.error || gptOss.value?.status === "unavailable" ? "Unavailable" : gptOss.value?.status === "reachable" ? "Reachable" : "Not Verified"}
+          </span>
+        </div>
+        <p className="muted">The AI assessment summarizes only the status feeds and recorded metrics above. It is not a computed check, physical test, safety determination, or regulatory approval.</p>
+        <button
+          className="secondary-button"
+          disabled={feedsLoaded === 0 || gptOss.value?.status !== "reachable" || gptOssInterpreting}
+          onClick={() => void interpretValidationEvidence()}
+          type="button"
+        >
+          {gptOssInterpreting ? "Preparing evidence summary…" : "Explain current evidence"}
+        </button>
+        {gptOss.error && <p className="message message--error" role="alert">{gptOss.error}</p>}
+        {gptOssInterpretationError && <p className="message message--error" role="alert">{gptOssInterpretationError}</p>}
+        {gptOssInterpretation && (
+          <div className="ai-interpretation" aria-live="polite">
+            <p>{gptOssInterpretation.interpretation}</p>
+            <small>{gptOssInterpretation.provider} · {gptOssInterpretation.model} · {new Date(gptOssInterpretation.generated_at).toLocaleString()}</small>
+          </div>
+        )}
+      </section>
 
       <DetailDisclosure id="validation-scope-details" title="Validation scope and limitations">
         <ul className="validation-detail-list">

@@ -77,14 +77,20 @@ def create_knowledge_blueprint(settings: Settings) -> Blueprint:
             "openai/gpt-oss-20b",
             "openai/gpt-oss-120b",
         }
+        try:
+            corpus_status = corpus.status()
+            retrieval_status = corpus.retrieval_status()
+        except KnowledgeError as error:
+            return jsonify({"error": str(error)}), error.status_code
         return jsonify(
             {
-                "corpus": corpus.status(),
+                "corpus": corpus_status,
                 "retrieval": {
                     "method": "TF-IDF with unigram/bigram cosine similarity",
                     "minimum_cosine_similarity": 0.05,
                     "chunk_characters": 1_200,
                     "chunk_overlap_characters": 200,
+                    **retrieval_status,
                 },
                 "bert": bert.status(),
                 "gpt_oss": {
